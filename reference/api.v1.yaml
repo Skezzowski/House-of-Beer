@@ -7,7 +7,7 @@ servers:
 paths:
   /login:
     post:
-      summary: login to the server
+      summary: Login
       tags:
         - login
       responses: {}
@@ -26,8 +26,9 @@ paths:
               example-1: {}
   /register:
     post:
-      summary: register
-      tags: []
+      summary: Register
+      tags:
+        - login
       responses: {}
       operationId: post-register
       requestBody:
@@ -45,8 +46,9 @@ paths:
         description: ''
   /beers:
     get:
-      summary: beers
-      tags: []
+      summary: Sör lista
+      tags:
+        - beer
       responses:
         '200':
           description: OK
@@ -74,8 +76,9 @@ paths:
         in: path
         required: true
     get:
-      summary: Your GET endpoint
-      tags: []
+      summary: Egy sör info
+      tags:
+        - beer
       responses:
         '200':
           description: OK
@@ -104,6 +107,158 @@ paths:
               type: object
               properties: {}
         description: ''
+  /breweries:
+    get:
+      summary: Főzde lista
+      tags:
+        - brewery
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    location:
+                      type: string
+                    picture:
+                      type: string
+        '':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    name:
+                      type: string
+                    location:
+                      type: string
+                    picture:
+                      type: string
+      operationId: get-brewery
+      description: Returns an array with the breweries
+    parameters: []
+  '/breweries/{breweryid}':
+    parameters:
+      - schema:
+          type: string
+        name: breweryid
+        in: path
+        required: true
+    get:
+      summary: Főzde info visszaadás
+      tags:
+        - brewery
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  location:
+                    type: string
+                  description:
+                    type: string
+                  picture:
+                    type: string
+      operationId: get-breweries-breweryid
+  /brew:
+    parameters: []
+    post:
+      summary: Főzés indítás
+      operationId: post-brew-beerdid
+      responses:
+        '200':
+          description: OK
+      tags:
+        - brew
+        - protected
+      description: 'Eddig csak a brewid van a bodyban, de majd később lehet kell valami, azért hagytam postnak'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                beerid:
+                  type: string
+  /brew/status:
+    get:
+      summary: Főzésben lévő sörök listázása
+      tags:
+        - brew
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    beerid:
+                      type: string
+                    name:
+                      type: string
+                    remaining-time:
+                      type: string
+      operationId: get-brew-status
 components:
-  schemas: {}
+  schemas:
+    user:
+      title: user
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        username:
+          type: string
+        password:
+          type: string
+    beer:
+      title: beer
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+        description:
+          type: string
+        picture:
+          type: string
+        ingredients:
+          type: string
+    brewery:
+      title: brewery
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        location:
+          type: string
+        picture:
+          type: string
+        description:
+          type: string
   securitySchemes: {}
