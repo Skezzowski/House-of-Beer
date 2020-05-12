@@ -1,0 +1,109 @@
+openapi: 3.0.0
+info:
+  title: api
+  version: '1.0'
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  /login:
+    post:
+      summary: login to the server
+      tags:
+        - login
+      responses: {}
+      operationId: post-login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+            examples:
+              example-1: {}
+  /register:
+    post:
+      summary: register
+      tags: []
+      responses: {}
+      operationId: post-register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                name:
+                  type: string
+                password:
+                  type: string
+        description: ''
+  /beers:
+    get:
+      summary: beers
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    type:
+                      type: string
+                    id:
+                      type: string
+                    picture:
+                      type: string
+      operationId: get-beers
+  '/beers/{beerid}':
+    parameters:
+      - schema:
+          type: string
+        name: beerid
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  description:
+                    type: string
+                  type:
+                    type: string
+                  ingerdients:
+                    type: string
+                  picture:
+                    type: string
+                  time-to-cook:
+                    type: string
+      operationId: get-beers-beerid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
+        description: ''
+components:
+  schemas: {}
+  securitySchemes: {}
