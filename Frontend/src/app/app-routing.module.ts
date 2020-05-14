@@ -7,16 +7,16 @@ import { BeerDetailsComponent } from './beers/beer-details/beer-details.componen
 
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
-  {
-    path: 'beers', component: BeersComponent, children: [
-      { path: ':id', component: BeerDetailsComponent }]
-  }
+	{ path: 'login', component: LoginComponent },
+	{ path: 'register', component: RegisterComponent },
+	{
+		path: 'beers', component: BeersComponent, children: [
+			{ path: ':id', component: BeerDetailsComponent }]
+	}
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+	imports: [RouterModule.forRoot(routes)],
+	exports: [RouterModule]
 })
 export class AppRoutingModule { }

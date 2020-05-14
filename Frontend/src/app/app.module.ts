@@ -13,22 +13,22 @@ import { BeerDetailsComponent } from './beers/beer-details/beer-details.componen
 import { BeerItemComponent } from './beers/beer-item/beer-item.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HeaderComponent,
-    LoginComponent,
-    RegisterComponent,
-    BeersComponent,
-    BeerDetailsComponent,
-    BeerItemComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-	FormsModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+	declarations: [
+		AppComponent,
+		HeaderComponent,
+		LoginComponent,
+		RegisterComponent,
+		BeersComponent,
+		BeerDetailsComponent,
+		BeerItemComponent
+	],
+	imports: [
+		BrowserModule,
+		AppRoutingModule,
+		HttpClientModule,
+		FormsModule
+	],
+	providers: [],
+	bootstrap: [AppComponent]
 })
 export class AppModule { }

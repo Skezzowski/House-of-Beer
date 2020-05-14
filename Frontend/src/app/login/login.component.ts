@@ -2,12 +2,12 @@ import { Component } from '@angular/core';
 import { UserService } from '../services/user.service';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+	selector: 'app-login',
+	templateUrl: './login.component.html',
+	styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
 
-  constructor(private userServie: UserService) { }
+	constructor(private userServie: UserService) { }
 
 }

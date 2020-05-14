@@ -1,0 +1,8 @@
+{
+	"typescript.tsdk": "./Frontend/node_modules/typescript/lib",
+	"editor.formatOnSave": true,
+	"html.format.wrapAttributes": "force-aligned",
+	"prettier.singleQuote": true,
+	"editor.tabSize": 4,
+	"editor.detectIndentation": false
+}

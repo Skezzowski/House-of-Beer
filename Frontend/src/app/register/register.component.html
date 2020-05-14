@@ -1,13 +1,30 @@
-<form #f="ngForm" (ngSubmit)="submit(f)">
-  <div class="form-group">
-    <label for="username">Felhasználónév</label>
-    <input ngModel name="username" class="form-control" id="username" required minlength="3">
-
-    <label for="fullname">Teljesnév</label>
-    <input ngModel name="fullname" type="email" class="form-control" id="fullname" required>
-
-    <label for="password">Jelszó</label>
-    <input ngModel name="password" type="password" class="form-control" id="password" required minlength="3">
-  </div>
-  <button type="submit" class="btn btn-primary" [disabled]="!f.valid">Submit</button>
+<form #f="ngForm"
+	  (ngSubmit)="submit(f)">
+	<div class="form-group">
+		<label for="username">Felhasználónév</label>
+		<input ngModel
+			   name="username"
+			   class="form-control"
+			   id="username"
+			   required
+			   minlength="3">
+		<label for="fullname">Teljesnév</label>
+		<input ngModel
+			   name="fullname"
+			   type="email"
+			   class="form-control"
+			   id="fullname"
+			   required>
+		<label for="password">Jelszó</label>
+		<input ngModel
+			   name="password"
+			   type="password"
+			   class="form-control"
+			   id="password"
+			   required
+			   minlength="3">
+	</div>
+	<button type="submit"
+			class="btn btn-primary"
+			[disabled]="!f.valid">Submit</button>
 </form>
