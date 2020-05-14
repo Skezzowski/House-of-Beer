@@ -29,7 +29,6 @@ userSchema.pre('save', function(this: IUser, next) {
             })
         })
     } else {
-        console.log('The password wasnt modified since the last save');
         return next();
     }
 });

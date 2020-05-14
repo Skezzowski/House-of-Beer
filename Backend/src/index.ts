@@ -8,6 +8,8 @@ import bodyParser from 'body-parser';
 import session from 'express-session';
 import './models/user.model'
 import { IUser } from './models/user.model';
+import cors from 'cors';
+
 
 
 let login = require('./routes/login');
@@ -62,6 +64,10 @@ app.use(session({ secret: 'keyboard cat', saveUninitialized: true, resave: true 
 app.use(passport.initialize());
 app.use(passport.session());
 
+// CORS
+app.use(cors({origin: [
+  "http://localhost:4736"
+], credentials: true}));
 
 // Logger
 app.use(morgan('tiny'));
