@@ -12,13 +12,16 @@ export class HeaderComponent {
   constructor(private userService: UserService, private router: Router) { }
 
   logout() {
-    if (this.userService.logout()) {
+    this.userService.logout().subscribe(data => {
+      this.userService.isLoggedIn = false;
       this.router.navigate(['/']);
-    };
+    }, error => {
+      console.log(error);
+    });
   }
 
   isLoggedIn() {
-    return this.userService.isLoggedIn();
+    return this.userService.isLoggedIn;
   }
 
 }
