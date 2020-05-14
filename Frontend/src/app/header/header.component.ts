@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { LoginService } from '../services/login.service';
 
 @Component({
   selector: 'app-header',
@@ -9,7 +10,7 @@ export class HeaderComponent {
 
   isLoggedIn: boolean = true;
 
-  constructor() { }
+  constructor(private loginServie: LoginService) { }
 
   logout(){
     console.log("Logging out");
