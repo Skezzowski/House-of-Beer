@@ -1,0 +1,16 @@
+.header{
+	display: flex;
+	justify-content: space-between;
+	.menuButtons{
+		display: flex;
+		flex-basis: 40%;
+	}
+	.administrativeButtons{
+		display: flex;
+		justify-content: flex-end;
+		flex-basis: 40%;
+	}
+	button{
+		margin: 3px;
+	}
+}
