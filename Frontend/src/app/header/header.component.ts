@@ -11,13 +11,13 @@ export class HeaderComponent {
 
   constructor(private userService: UserService, private router: Router) { }
 
-  logout(){
-    if(this.userService.logout()){
+  logout() {
+    if (this.userService.logout()) {
       this.router.navigate(['/']);
     };
   }
 
-  isLoggedIn(){
+  isLoggedIn() {
     return this.userService.isLoggedIn();
   }
 

@@ -7,18 +7,24 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { BeersComponent } from './beers/beers.component';
+import { BeerDetailsComponent } from './beers/beer-details/beer-details.component';
+import { BeerItemComponent } from './beers/beer-item/beer-item.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-	LoginComponent,
-	RegisterComponent
+    LoginComponent,
+    RegisterComponent,
+    BeersComponent,
+    BeerDetailsComponent,
+    BeerItemComponent
   ],
   imports: [
     BrowserModule,
-	AppRoutingModule,
-	HttpClientModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
