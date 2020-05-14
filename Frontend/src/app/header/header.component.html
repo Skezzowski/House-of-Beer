@@ -4,9 +4,9 @@
 		<button class="btn btn-primary btn-sm">Sörök</button>
 	</div>
 	<div class="administrativeButtons ">
-		<button class="btn btn-primary btn-sm" [routerLink]="'/profile'" *ngIf="isLoggedIn">Aktív főzések</button>
-		<button class="btn btn-primary btn-sm" [routerLink]="'/'" (click)="logout()" *ngIf="isLoggedIn">Kijelentkezés</button>
-		<button class="btn btn-primary btn-sm" [routerLink]="'/login'" *ngIf="!isLoggedIn">Bejelentkezés</button>
-		<button class="btn btn-primary btn-sm" [routerLink]="'/register'" *ngIf="!isLoggedIn">Regisztráció</button>
+		<button class="btn btn-primary btn-sm" [routerLink]="'/profile'" *ngIf="isLoggedIn()">Aktív főzések</button>
+		<button class="btn btn-primary btn-sm" [routerLink]="'/'" (click)="logout()" *ngIf="isLoggedIn()">Kijelentkezés</button>
+		<button class="btn btn-primary btn-sm" [routerLink]="'/login'" *ngIf="!isLoggedIn()">Bejelentkezés</button>
+		<button class="btn btn-primary btn-sm" [routerLink]="'/register'" *ngIf="!isLoggedIn()">Regisztráció</button>
 	</div>
 </div>
