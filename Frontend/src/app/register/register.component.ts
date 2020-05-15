@@ -11,12 +11,12 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class RegisterComponent {
 
-	constructor(private userServie: UserService, private router: Router) { }
 	private focusedTag: NgModel;
 	readonly usernameMinLength: number = 4;
 	readonly passwordMinLength: number = 4;
-	registerError: boolean = false;
-	errorMsg: string;
+	errorMsg: string = '';
+
+	constructor(private userServie: UserService, private router: Router) { }
 
 	submit(f: NgForm) {
 		const values = f.value;
@@ -24,7 +24,6 @@ export class RegisterComponent {
 			this.router.navigate(['/login']);
 		}, (error: HttpErrorResponse) => {
 			this.errorMsg = error.error.msg;
-			this.registerError = true;
 		});
 	}
 

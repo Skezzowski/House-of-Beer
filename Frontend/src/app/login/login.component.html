@@ -3,17 +3,38 @@
 	<div class="form-group">
 		<label for="username">Felhasználónév</label>
 		<input ngModel
+			   #username="ngModel"
 			   name="username"
 			   class="form-control"
 			   id="username"
-			   required>
+			   required
+			   (focus)="focused(username)"
+			   (blur)="focused()"
+			   [class.error]="username.touched && !username.valid && !isFocused(username)">
+		<div class="alert alert-danger"
+			 *ngIf="username.touched && !username.valid && !isFocused(username)">
+			A Felhasználónév kötelező!
+		</div>
 		<label for="password">Jelszó</label>
 		<input ngModel
+			   #password="ngModel"
 			   name="password"
 			   type="password"
 			   class="form-control"
 			   id="password"
-			   required>
+			   required
+			   (focus)="focused(password)"
+			   (blur)="focused()"
+			   [class.error]="password.touched && !password.valid && !isFocused(password)">
+		<div class="alert alert-danger"
+			 *ngIf="password.touched && !password.valid && !isFocused(password)">
+			A Jelszó kötelező!
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="text-danger"
+			   *ngIf="errorMsg != ''">
+			{{errorMsg}}!</label>
 	</div>
 	<button type="submit"
 			class="btn btn-primary"

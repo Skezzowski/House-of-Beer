@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../services/user.service';
-import { NgForm } from '@angular/forms';
+import { NgForm, NgModel } from '@angular/forms';
 import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
 	selector: 'app-login',
@@ -9,6 +10,9 @@ import { Router } from '@angular/router';
 	styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+
+	private focusedTag: NgModel;
+	errorMsg: string = '';
 
 	constructor(private userServie: UserService, private router: Router) { }
 
@@ -20,9 +24,18 @@ export class LoginComponent implements OnInit {
 		this.userServie.login(f.value.username, f.value.password).subscribe(data => {
 			this.userServie.isLoggedIn = true;
 			this.router.navigate(['/beers']);
-		}, error => {
-			console.log('error', error);
+		}, (error: HttpErrorResponse) => {
+			this.errorMsg = error.error.msg;
+
 		});
+	}
+
+	focused(tag?: NgModel) {
+		this.focusedTag = tag;
+	}
+
+	isFocused(tag: NgModel): boolean {
+		return this.focusedTag === tag;
 	}
 
 }
