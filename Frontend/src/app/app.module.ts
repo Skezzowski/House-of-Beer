@@ -16,6 +16,8 @@ import { BreweryDetailsComponent } from './breweries/brewery-details/brewery-det
 import { BreweryItemComponent } from './breweries/brewery-item/brewery-item.component';
 import { ErrorComponent } from './error/error.component';
 import { HomeComponent } from './home/home.component';
+import { ProfileComponent } from './profile/profile.component';
+import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 
 @NgModule({
 	declarations: [
@@ -30,7 +32,9 @@ import { HomeComponent } from './home/home.component';
 		BreweryDetailsComponent,
 		BreweryItemComponent,
 		ErrorComponent,
-		HomeComponent
+		HomeComponent,
+		ProfileComponent,
+		UnauthorizedComponent
 	],
 	imports: [
 		BrowserModule,
