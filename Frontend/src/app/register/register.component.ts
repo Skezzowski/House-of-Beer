@@ -15,12 +15,7 @@ export class RegisterComponent {
 	submit(f: NgForm) {
 		const values = f.value;
 		this.userServie.register(values.username, values.fullname, values.password).subscribe(data => {
-			this.userServie.login(values.username, values.password).subscribe(data => {
-				this.userServie.isLoggedIn = true;
-				this.router.navigate(['/']);
-			}, error => {
-				console.log('error', error);
-			});
+			this.router.navigate(['/login']);
 		}, error => {
 			console.log('error', error);
 		});
