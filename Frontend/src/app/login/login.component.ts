@@ -26,7 +26,6 @@ export class LoginComponent implements OnInit {
 			this.router.navigate(['/beers']);
 		}, (error: HttpErrorResponse) => {
 			this.errorMsg = error.error.msg;
-
 		});
 	}
 
