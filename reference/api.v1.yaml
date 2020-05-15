@@ -10,7 +10,34 @@ paths:
       summary: Login
       tags:
         - login
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+        '401':
+          description: Rossz jelszó
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+        '403':
+          description: 'Forbidden, Amikor hiányzik a username vagy a jelszó'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
       operationId: post-login
       requestBody:
         content:
@@ -24,12 +51,40 @@ paths:
                   type: string
             examples:
               example-1: {}
+      description: ''
   /register:
     post:
       summary: Register
       tags:
         - login
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+        '403':
+          description: 'Felhasználó létezik, vagy hiányzik a username/jelszó'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+        '500':
+          description: Adatbázissal valami gond van
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
       operationId: post-register
       requestBody:
         content:
@@ -217,6 +272,31 @@ paths:
                     remaining-time:
                       type: string
       operationId: get-brew-status
+  /logout:
+    post:
+      summary: Logout
+      operationId: post-logout
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+        '403':
+          description: User nincs beloginolva
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+      tags:
+        - login
 components:
   schemas:
     user:
