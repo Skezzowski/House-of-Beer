@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { Request, Response, NextFunction } from 'express'
 import passport from 'passport'
 import { MongoError } from 'mongodb';
 import userModel from '../models/user.model';
@@ -6,21 +6,25 @@ import userModel from '../models/user.model';
 
 let router = express.Router()
 
-router.route('/login').post((req, res) => {
-    if (req.body.username && req.body.password) {
-        passport.authenticate('local', (error: Error, user) => {
-            if (error) {
-                return res.status(401).json({ msg: error.message });
-            } else {
-                req.logIn(user, (error) => {
-                    if (error) return res.status(500).json({ msg: error.message });
-                    return res.status(200).json({ msg: 'Bejelentkezés sikeres' });
-                });
-            }
-        })(req, res);
+const userNamePasswordChecker = function (req: Request, res: Response, next: NextFunction) {
+    if (!req.body.username || !req.body.password) {
+        return res.status(403).json({ msg: 'Felhasználónév vagy jelszó hiányzik' });
     } else {
-        res.status(403).json({ msg: 'Felhasználónév vagy jelszó hiányzik' });
+        next();
     }
+}
+
+router.route('/login').post(userNamePasswordChecker, (req, res) => {
+    passport.authenticate('local', (error: Error, user) => {
+        if (error) {
+            return res.status(401).json({ msg: error.message });
+        } else {
+            req.logIn(user, (error) => {
+                if (error) return res.status(500).json({ msg: error.message });
+                return res.status(200).json({ msg: 'Bejelentkezés sikeres' });
+            });
+        }
+    })(req, res);
 });
 
 router.route('/logout').post((req, res) => {
@@ -32,25 +36,21 @@ router.route('/logout').post((req, res) => {
     }
 });
 
-router.route('/register').post((req, res) => {
-    if (req.body.username && req.body.password) {
-        const user = new userModel({
-            username: req.body.username,
-            password: req.body.password,
-            name: req.body.name ? req.body.name : ''
-        });
-        user.save()
-            .then(_ => res.status(200).json({ msg: 'Sikeres regisztráció' }))
-            .catch((err: MongoError) => {
-                if (err.code == 11000) {
-                    return res.status(403).json({ msg: 'Felhasználónév foglalt' })
-                } else {
-                    return res.status(500).json({ msg: 'Várlatlan hiba' })
-                }
-            })
-    } else {
-        res.status(403).json({ msg: 'Felhasználónév vagy jelszó hiányzik' });
-    }
+router.route('/register').post(userNamePasswordChecker, (req, res) => {
+    const user = new userModel({
+        username: req.body.username,
+        password: req.body.password,
+        name: req.body.name ? req.body.name : ''
+    });
+    user.save()
+        .then(_ => res.status(200).json({ msg: 'Sikeres regisztráció' }))
+        .catch((err: MongoError) => {
+            if (err.code == 11000) {
+                return res.status(403).json({ msg: 'Felhasználónév foglalt' })
+            } else {
+                return res.status(500).json({ msg: 'Várlatlan hiba' })
+            }
+        })
 });
 
 module.exports = router;
