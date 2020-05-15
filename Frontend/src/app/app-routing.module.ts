@@ -8,6 +8,9 @@ import { BreweriesComponent } from './breweries/breweries.component';
 import { BreweryDetailsComponent } from './breweries/brewery-details/brewery-details.component';
 import { ErrorComponent } from './error/error.component';
 import { HomeComponent } from './home/home.component';
+import { AuthGuardService } from './services/auth-guard.service';
+import { ProfileComponent } from './profile/profile.component';
+import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 
 
 const routes: Routes = [
@@ -22,6 +25,8 @@ const routes: Routes = [
 		path: 'breweries', component: BreweriesComponent, children: [
 			{ path: ':id', component: BreweryDetailsComponent }]
 	},
+	{ path: 'profile', component: ProfileComponent, canActivate: [AuthGuardService] },
+	{ path: 'unauthorized', component: UnauthorizedComponent },
 	{ path: '**', component: ErrorComponent },
 ];
 

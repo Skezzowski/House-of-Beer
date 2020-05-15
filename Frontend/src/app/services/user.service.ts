@@ -17,7 +17,13 @@ export class UserService {
 		})
 	};
 
-	isLoggedIn = false;
+	get isLoggedIn(): boolean {
+		return !!localStorage.getItem('beerLoggedIn');
+	}
+
+	set isLoggedIn(value: boolean) {
+		localStorage.setItem('beerLoggedIn', value ? "true" : "false");
+	}
 
 	logout(): Observable<any> {
 		return this.httpClient.post(environment.dbUrl + '/logout', {}, UserService.httpOptions);

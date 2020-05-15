@@ -13,7 +13,6 @@ export class HeaderComponent {
 
 	logout() {
 		this.userService.logout().subscribe(data => {
-			this.userService.isLoggedIn = false;
 			this.router.navigate(['/login']);
 		}, error => {
 			console.log(error);
