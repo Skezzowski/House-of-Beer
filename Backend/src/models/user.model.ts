@@ -24,7 +24,7 @@ userSchema.pre('save', function (this: IUser, next) {
                 user.password = hash
                 return next();
             })
-            .catch(err => { return next(new Error('Bcrypt error: ' + err)) })
+            .catch(err => { return next(new Error('Bcrypt hiba: ' + err)) })
     } else {
         return next();
     }

@@ -14,21 +14,21 @@ router.route('/login').post((req, res) => {
             } else {
                 req.logIn(user, (error) => {
                     if (error) return res.status(500).json({ msg: error.message });
-                    return res.status(200).json({ msg: "Login successfull" });
+                    return res.status(200).json({ msg: 'Bejelentkezés sikeres' });
                 });
             }
         })(req, res);
     } else {
-        res.status(403).json({ msg: "Missing username or password" });
+        res.status(403).json({ msg: 'Felhasználónév vagy jelszó hiányzik' });
     }
 });
 
 router.route('/logout').post((req, res) => {
     if (req.isAuthenticated()) {
         req.logout();
-        res.status(200).json({ msg: "Logout succesfull" });
+        res.status(200).json({ msg: 'Sikeres kijelentkezés' });
     } else {
-        res.status(403).json({ msg: "No user in session to logout" })
+        res.status(403).json({ msg: 'Felhasználó nincs bejelentkezve, ezért nem lehet kijelentkezni' })
     }
 });
 
@@ -37,19 +37,19 @@ router.route('/register').post((req, res) => {
         const user = new userModel({
             username: req.body.username,
             password: req.body.password,
-            name: req.body.name ? req.body.name : ""
+            name: req.body.name ? req.body.name : ''
         });
         user.save()
-            .then(_ => res.status(200).json({ msg: 'User registered!' }))
+            .then(_ => res.status(200).json({ msg: 'Sikeres regisztráció' }))
             .catch((err: MongoError) => {
                 if (err.code == 11000) {
-                    return res.status(403).json({ msg: 'Username already exists' })
+                    return res.status(403).json({ msg: 'Felhasználónév foglalt' })
                 } else {
-                    return res.status(500).json({ msg: 'Database error' })
+                    return res.status(500).json({ msg: 'Várlatlan hiba' })
                 }
             })
     } else {
-        res.status(403).json({ msg: "Missing username or password" });
+        res.status(403).json({ msg: 'Felhasználónév vagy jelszó hiányzik' });
     }
 });
 
