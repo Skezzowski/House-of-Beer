@@ -200,7 +200,7 @@ paths:
                     picture:
                       type: string
       operationId: get-brewery
-      description: Returns an array with the breweries
+      description: Returns an array with the breweries.
     parameters: []
   '/breweries/{breweryid}':
     parameters:

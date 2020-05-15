@@ -1,0 +1,24 @@
+- Bejelentkező/Regisztráló oldal (felhasználónév, név, jelszó)
+
+Sörüzem böngésző:
+- Sima böngésző
+
+Sörüzem információs felület:
+- kép, név, leírás
+
+Sör böngésző:
+- Bármki tudjon söröket nézegetni, bejelentkezés nélkül
+
+Sör információs felületet:
+- kép, név, típus, leírás, hozzávalók, főzési technikák
+
+Bejelentkezett felhasználó esetén:
+- A Sör böngészőnél jelenjen meg minden sörnél egy Főzés gomb
+- Legyen egy felület az éppen főzésben levő sörökről
+  - Minden sörhöz: Sör információs felületet + egy lista az eddig elvégzett műveletekről
+    - Ha van új művelet, akkor az a listán legyen kiemelve, és lehessen láttamozni/OK-zni, ellenben maradjon kijelölve
+    - A legutlsó elemnél írja még ki azt is, hogy mennyi idő van hátra, a köv. állapotig
+
+Extrák:
+- Regisztrációs adatok változtatása
+
