@@ -6,19 +6,21 @@ import bodyParser from 'body-parser';
 import session from 'express-session';
 import cors from 'cors';
 
-import './models/user.model'
-import './models/beer.model'
+import './models/user.model';
+import './models/beer.model';
+import './models/brewery.model';
 
 //Routes
-let loginRoutes = require('./routes/login');
-let beerRoutes = require('./routes/beer')
+let loginRoutes = require('./routes/login.route');
+let beerRoutes = require('./routes/beer.route');
+let breweryRoutes = require('./routes/brewery.route');
 
 const port = 3000;
 const app = express();
 export const router = express.Router();
 
 // Database Config
-require('./cofigurations/database')
+require('./cofigurations/database');
 
 app.use(express.static('public'));
 app.use(cookieParser());
@@ -44,11 +46,12 @@ app.use(cors(corsOptions));
 // Logger
 app.use(morgan('tiny'));
 
+router.use(breweryRoutes);
 router.use(loginRoutes);
 router.use(beerRoutes);
 app.use(router);
 
 app.listen(port, () => {
-    console.log('Server is running on port: ' + port)
+    console.log('Server is running on port: ' + port);
 });
 

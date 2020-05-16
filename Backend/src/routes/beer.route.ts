@@ -16,8 +16,8 @@ router.route('/beers').get((req, res) => {
         });
 });
 
-router.route('/beers/:beerid').get((req, res) => {
-    beerModel.findOne({ _id: req.params.beerid })
+router.route('/beers/:beerId').get((req, res) => {
+    beerModel.findOne({ _id: req.params.beerId })
         .then(beer => {
             if (!beer) {
                 return res.status(404).json({ msg: "Ilyen objektum nem létezik" })

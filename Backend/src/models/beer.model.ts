@@ -1,5 +1,4 @@
 import mongoose from 'mongoose'
-import { Int32 } from 'mongodb';
 
 const beerSchema = new mongoose.Schema({
     name: { type: String, required: true },
