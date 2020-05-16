@@ -118,18 +118,22 @@ paths:
                       type: string
                     type:
                       type: string
-                    id:
+                    _id:
                       type: string
-                    picture:
+                    pictureUrl:
                       type: string
+        '500':
+          description: Valami hiba az adatbázissal
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
       operationId: get-beers
-  '/beers/{beerid}':
-    parameters:
-      - schema:
-          type: string
-        name: beerid
-        in: path
-        required: true
+  '/beers/:beerId':
+    parameters: []
     get:
       summary: Egy sör info
       tags:
@@ -150,9 +154,33 @@ paths:
                     type: string
                   ingerdients:
                     type: string
-                  picture:
+                  pictureUrl:
                     type: string
-                  time-to-cook:
+                  timeToCook:
+                    type: number
+                    description: |
+                      idő órában
+                  _id:
+                    type: string
+              examples:
+                example-1: {}
+        '404':
+          description: Ha nincs ilyen idjű objectum
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+        '500':
+          description: 'Ha rossz az id formátum, vagy valami nagyobb baj van'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
                     type: string
       operationId: get-beers-beerid
       requestBody:
@@ -162,6 +190,8 @@ paths:
               type: object
               properties: {}
         description: ''
+      parameters: []
+      description: 'példa az eléréshez: http://localhost:300/beer/5ebeb42aa071bad1a24b94b5'
   /breweries:
     get:
       summary: Főzde lista
@@ -183,6 +213,15 @@ paths:
                       type: string
                     picture:
                       type: string
+        '500':
+          description: Valami hiba az adatbázissal
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
         '':
           content:
             application/json:
@@ -202,13 +241,8 @@ paths:
       operationId: get-brewery
       description: Returns an array with the breweries.
     parameters: []
-  '/breweries/{breweryid}':
-    parameters:
-      - schema:
-          type: string
-        name: breweryid
-        in: path
-        required: true
+  '/breweries/:breweryId':
+    parameters: []
     get:
       summary: Főzde info visszaadás
       tags:
@@ -228,6 +262,24 @@ paths:
                   description:
                     type: string
                   picture:
+                    type: string
+        '404':
+          description: NIncs ilyen ids adat
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+        '500':
+          description: 'Rossz id formátum, vagy valami nagyobb hiba'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
                     type: string
       operationId: get-breweries-breweryid
   /brew:
