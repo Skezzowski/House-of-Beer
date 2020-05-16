@@ -1,15 +1,17 @@
-import mongoose from 'mongoose';
 import express from 'express';
 import morgan from 'morgan';
 import passport from 'passport';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import session from 'express-session';
-import './models/user.model'
 import cors from 'cors';
 
+import './models/user.model'
+import './models/beer.model'
+
 //Routes
-let login = require('./routes/login');
+let loginRoutes = require('./routes/login');
+let beerRoutes = require('./routes/beer')
 
 const port = 3000;
 const app = express();
@@ -42,7 +44,8 @@ app.use(cors(corsOptions));
 // Logger
 app.use(morgan('tiny'));
 
-router.use(login);
+router.use(loginRoutes);
+router.use(beerRoutes);
 app.use(router);
 
 app.listen(port, () => {
