@@ -3,28 +3,64 @@
 	<div class="form-group">
 		<label for="username">Felhasználónév</label>
 		<input ngModel
+			   #username="ngModel"
 			   name="username"
 			   class="form-control"
 			   id="username"
 			   required
-			   minlength="3">
-		<label for="fullname">Teljesnév</label>
+			   [minlength]="usernameMinLength"
+			   (focus)="focused(username)"
+			   (blur)="focused()"
+			   [class.error]="username.touched && !username.valid && !isFocused(username)"
+			   placeholder="Legalább {{usernameMinLength}} karakter hosszú.">
+		<div class="alert alert-danger"
+			 *ngIf="username.touched && !username.valid && !isFocused(username)">
+			<div *ngIf="username.errors.required">A Felhasználónév kötelező!</div>
+			<div *ngIf="username.errors.minlength">A Felhasználónév legalább {{usernameMinLength}} karakter kell, hogy
+				legyen!</div>
+		</div>
+		<label for="fullname">Teljes név</label>
 		<input ngModel
+			   #fullname="ngModel"
 			   name="fullname"
 			   type="email"
 			   class="form-control"
 			   id="fullname"
-			   required>
+			   required
+			   (focus)="focused(fullname)"
+			   (blur)="focused()"
+			   [class.error]="fullname.touched && !fullname.valid && !isFocused(fullname)">
+		<div class="alert alert-danger"
+			 *ngIf="fullname.touched && !fullname.valid && !isFocused(fullname)">
+			A Teljes név kötelező!
+		</div>
 		<label for="password">Jelszó</label>
 		<input ngModel
+			   #password="ngModel"
 			   name="password"
 			   type="password"
 			   class="form-control"
 			   id="password"
 			   required
-			   minlength="3">
+			   [minlength]="passwordMinLength"
+			   (focus)="focused(password)"
+			   (blur)="focused()"
+			   [class.error]="password.touched && !password.valid && !isFocused(password)">
+		<div class="alert alert-danger"
+			 *ngIf="password.touched && !password.valid && !isFocused(password)">
+			<div *ngIf="password.errors.required">A Jelszó kötelező!</div>
+			<div *ngIf="password.errors.minlength">A Jelszó legalább {{passwordMinLength}} karakter kell, hogy
+				legyen!</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="text-danger"
+			   *ngIf="errorMsg != ''">
+			{{errorMsg}}!</label>
 	</div>
 	<button type="submit"
 			class="btn btn-primary"
-			[disabled]="!f.valid">Submit</button>
+			[disabled]="!f.valid">Submit
+	</button>
+
 </form>

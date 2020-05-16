@@ -1,0 +1,15 @@
+<div class="row">
+	<div class="col-md-4">
+		<div class="row">
+			<div class="col-md-12">
+				<app-brewery-item *ngFor="let bw of breweryList"
+								  [brewery]="bw"
+								  [id]="bw.id">
+				</app-brewery-item>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-3">
+		<router-outlet></router-outlet>
+	</div>
+</div>

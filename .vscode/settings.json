@@ -4,5 +4,6 @@
 	"html.format.wrapAttributes": "force-aligned",
 	"prettier.singleQuote": true,
 	"editor.tabSize": 4,
-	"editor.detectIndentation": false
+	"editor.detectIndentation": false,
+	"editor.insertSpaces": false
 }

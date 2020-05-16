@@ -1,19 +1,24 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Beer } from '../beer.model';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
-  selector: 'app-beer-item',
-  templateUrl: './beer-item.component.html',
-  styleUrls: ['./beer-item.component.scss']
+	selector: 'app-beer-item',
+	templateUrl: './beer-item.component.html',
+	styleUrls: ['./beer-item.component.scss']
 })
 export class BeerItemComponent implements OnInit {
 
-  @Input() beer: Beer;
-  @Input() index: number;
+	@Input() beer: Beer;
+	@Input() id: string;
 
-  constructor() { }
+	constructor(private userService: UserService) { }
 
-  ngOnInit(): void {
-  }
+	ngOnInit(): void {
+	}
+
+	public isLoggedIn(): boolean {
+		return this.userService.isLoggedIn;
+	}
 
 }

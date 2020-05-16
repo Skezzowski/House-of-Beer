@@ -1,15 +1,15 @@
-<div class="row ml-5 mt-5">
-    <div class="col-md-4">
-        <div class="row">
-            <div class="col-md-12">
-                <app-beer-item *ngFor="let beer of beerList; let i = index"
-                               [beer]="beer"
-                               [index]="i">
-                </app-beer-item>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <router-outlet></router-outlet>
-    </div>
+<div class="row">
+	<div class="col-md-5">
+		<div class="row">
+			<div class="col-md-12">
+				<app-beer-item *ngFor="let beer of beerList"
+							   [beer]="beer"
+							   [id]="beer.id">
+				</app-beer-item>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-7">
+		<router-outlet></router-outlet>
+	</div>
 </div>
