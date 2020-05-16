@@ -1,30 +1,28 @@
 import { Injectable } from '@angular/core';
 import { Beer } from '../beers/beer.model';
+import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class BeerService {
 
-	constructor() { }
+	private static readonly httpOptions = {
+		withCredentials: true,
+		headers: new HttpHeaders({
+			'Content-Type': 'application/json'
+		})
+	};
 
-	private beerList: Beer[] = [
-		new Beer('0', 'Sörnév', 'sör leírása', 'sör típusa', 'sör hozzávalói', 'assets/pictures/beer1.jpg', 'elkészítési idő'),
-		new Beer('1', 'Sörnév 2', 'sör leírása 2', 'sör típusa 2', 'sör hozzávalói 2', 'assets/pictures/beer2.jpg', 'elkészítési idő 2'),
-		new Beer('2', 'Sörnév 3', 'sör leírása 3', 'sör típusa 3', 'sör hozzávalói 3', 'assets/pictures/beer3.jpg', 'elkészítési idő 3')
-	];
+	constructor(private httpClient: HttpClient) { }
 
-	getBeers(): Beer[] {
-		return this.beerList.slice();
+	getBeers(): Observable<Beer[]> {
+		return this.httpClient.get<Beer[]>(environment.dbUrl + '/beers', BeerService.httpOptions);
 	}
 
-	getBeer(id: string): Beer {
-		let beer: Beer;
-		this.beerList.forEach(e => {
-			if (e.id === id) {
-				beer = e;
-			}
-		});
-		return beer;
+	getBeer(id: string): Observable<Beer> {
+		return this.httpClient.get<Beer>(environment.dbUrl + '/beers/' + id, BeerService.httpOptions);
 	}
 }

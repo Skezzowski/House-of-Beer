@@ -2,7 +2,7 @@
 	<div class="col-md-2 mr-2 d-flex align-items-center"
 		 *ngIf="isLoggedIn()">
 		<button class="btn btn-primary  align-middle"
-				[routerLink]="'/profile'">Főzés</button>
+				[routerLink]="['/profile',id]">Főzés</button>
 	</div>
 	<div class="col-md">
 		<a style="cursor: pointer;"
@@ -14,7 +14,7 @@
 				<p class="list-group-item-text">{{ beer.type }}</p>
 			</div>
 			<span class="float-right">
-				<img [src]="beer.picture"
+				<img [src]="dbUrl+beer.pictureUrl"
 					 alt="{{ beer.name }}"
 					 class="img-responsive"
 					 style="max-height: 50px;">

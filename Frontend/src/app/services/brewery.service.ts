@@ -1,30 +1,28 @@
 import { Injectable } from '@angular/core';
 import { Brewery } from '../breweries/brewery.model';
+import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class BreweryService {
 
-	constructor() { }
+	private static readonly httpOptions = {
+		withCredentials: true,
+		headers: new HttpHeaders({
+			'Content-Type': 'application/json'
+		})
+	};
 
-	private breweries: Brewery[] = [
-		new Brewery('0', 'Sörgyár', 'Prága', 'sörgyár leírása', 'assets/pictures/brewery.jpg'),
-		new Brewery('1', 'Sörgyár 2', 'Sopron', 'sörgyár leírása', 'assets/pictures/brewery2.jpg'),
-		new Brewery('2', 'Sörgyár 3', 'Város neve', 'sörgyár leírása', 'assets/pictures/brewery3.jpg')
-	];
+	constructor(private httpClient: HttpClient) { }
 
-	getBreweries(): Brewery[] {
-		return this.breweries.slice();
+	getBreweries(): Observable<Brewery[]> {
+		return this.httpClient.get<Brewery[]>(environment.dbUrl + '/breweries', BreweryService.httpOptions);
 	}
 
-	getBrewery(id: string): Brewery {
-		let brewery: Brewery;
-		this.breweries.forEach(e => {
-			if (e.id === id) {
-				brewery = e;
-			}
-		});
-		return brewery;
+	getBrewery(id: string): Observable<Brewery> {
+		return this.httpClient.get<Brewery>(environment.dbUrl + '/breweries/' + id, BreweryService.httpOptions);
 	}
 }
