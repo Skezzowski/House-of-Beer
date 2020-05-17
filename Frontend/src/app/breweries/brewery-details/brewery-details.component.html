@@ -1,17 +1,17 @@
 <div class="ml-5">
 	<div class="row">
-		<img [src]="dbUrl+brewery.pictureUrl"
-			 alt="{{ brewery.name }}"
+		<img [src]="dbUrl+brewery?.pictureUrl"
+			 alt="{{ brewery?.name }}"
 			 class="img-responsive"
 			 style="max-height: 300px;">
 	</div>
 	<div class="row">
-		<h1>{{ brewery.name }}</h1>
+		<h1>{{ brewery?.name }}</h1>
 	</div>
 	<div class="row">
-		Város: {{ brewery.location }}
+		Város: {{ brewery?.location }}
 	</div>
 	<div class="row">
-		A sörüzemről: {{ brewery.description }}
+		A sörüzemről: {{ brewery?.description }}
 	</div>
 </div>

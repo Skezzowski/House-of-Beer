@@ -1,23 +1,23 @@
 <div class="ml-5">
 	<div class="row">
-		<img [src]="dbUrl+beer.pictureUrl"
-			 alt="{{ beer.name }}"
+		<img [src]="dbUrl+beer?.pictureUrl"
+			 alt="{{ beer?.name }}"
 			 class="img-responsive"
 			 style="max-height: 300px;">
 	</div>
 	<div class="row">
-		<h1>{{ beer.name }}</h1>
+		<h1>{{ beer?.name }}</h1>
 	</div>
 	<div class="row">
-		{{ beer.description }}
+		{{ beer?.description }}
 	</div>
 	<div class="row">
-		Típusa: {{ beer.type }}
+		Típusa: {{ beer?.type }}
 	</div>
 	<div class="row">
-		Hozzávalók: {{ beer.ingredients }}
+		Hozzávalók: {{ beer?.ingredients }}
 	</div>
 	<div class="row">
-		Elkészítési idő: {{ beer.timeToCook }} óra
+		Elkészítési idő: {{ beer?.timeToCook }} óra
 	</div>
 </div>
