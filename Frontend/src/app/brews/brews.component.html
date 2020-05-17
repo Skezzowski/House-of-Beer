@@ -1,15 +1,17 @@
-<h3 *ngIf="!brewsList?.length">
-	A főzési listád még üres.
-	<a [routerLink]="'/beers'">A sörök listájából</a> kiválaszthatod, hogy melyiket szeretnéd elkezdeni főzni.</h3>
-<div class="row">
-	<h4 class="mb-4"
-		*ngIf="brewsList?.length">
-		Folyamatban lévő söreid:
-	</h4>
-	<div class="col-md-12">
-		<app-brew-item *ngFor="let brew of brewsList"
-					   [brew]="brew"
-					   [id]="brew._id">
-		</app-brew-item>
+<div *ngIf="!loading">
+	<h3 *ngIf="!brewsList?.length">
+		A főzési listád még üres.
+		<a [routerLink]="'/beers'">A sörök listájából</a> kiválaszthatod, hogy melyiket szeretnéd elkezdeni főzni.</h3>
+	<div class="row">
+		<h4 class="mb-4"
+			*ngIf="brewsList?.length">
+			Folyamatban lévő söreid:
+		</h4>
+		<div class="col-md-12">
+			<app-brew-item *ngFor="let brew of brewsList"
+						   [brew]="brew"
+						   [id]="brew._id">
+			</app-brew-item>
+		</div>
 	</div>
 </div>

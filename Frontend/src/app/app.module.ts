@@ -20,6 +20,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 import { BrewsComponent } from './brews/brews.component';
 import { BrewItemComponent } from './brews/brew-item/brew-item.component';
+import { ActiveBrewComponent } from './active-brew/active-brew.component';
 
 @NgModule({
 	declarations: [
@@ -38,7 +39,8 @@ import { BrewItemComponent } from './brews/brew-item/brew-item.component';
 		ProfileComponent,
 		UnauthorizedComponent,
 		BrewsComponent,
-		BrewItemComponent
+		BrewItemComponent,
+		ActiveBrewComponent
 	],
 	imports: [
 		BrowserModule,
