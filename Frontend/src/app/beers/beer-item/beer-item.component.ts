@@ -3,6 +3,7 @@ import { Beer } from '../beer.model';
 import { UserService } from 'src/app/services/user.service';
 import { environment } from 'src/environments/environment';
 import { BrewService } from 'src/app/services/brew.service';
+import { Router } from '@angular/router';
 
 @Component({
 	selector: 'app-beer-item',
@@ -17,7 +18,8 @@ export class BeerItemComponent implements OnInit {
 
 	constructor(
 		private userService: UserService,
-		private brewService: BrewService) { }
+		private brewService: BrewService,
+		private router: Router) { }
 
 	ngOnInit(): void {
 	}
@@ -27,7 +29,10 @@ export class BeerItemComponent implements OnInit {
 	}
 
 	public startBrew(): void {
-		this.brewService.startBrew(this.beer._id);
+		this.brewService.startBrew(this.beer._id).subscribe(res => {
+			this.router.navigate(['/brews']);
+			console.log(res);
+		});
 	}
 
 }

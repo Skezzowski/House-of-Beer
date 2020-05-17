@@ -14,21 +14,7 @@ export class BrewsComponent implements OnInit {
 	constructor(private brewService: BrewService) { }
 
 	ngOnInit(): void {
-		this.brewsList = [{
-			'brewId': 'főzés_id',
-			'beerName': 'soproni',
-			'beerType': 'IPA',
-			'actionNeeded': true,
-			'beerId': 'sör_id'
-		},
-		{
-			'brewId': 'főzés_id_2',
-			'beerName': 'soproni2',
-			'beerType': 'APA',
-			'actionNeeded': false,
-			'beerId': 'sör_id2'
-		}];
-		//this.brewService.getBrews().subscribe(res => this.brewsList = res);
+		this.brewService.getBrews().subscribe(res => this.brewsList = res);
 	}
 
 }

@@ -1,8 +1,9 @@
-<h3 *ngIf="!brewsList">
+<h3 *ngIf="!brewsList?.length">
 	A főzési listád még üres.
 	<a [routerLink]="'/beers'">A sörök listájából</a> kiválaszthatod, hogy melyiket szeretnéd elkezdeni főzni.</h3>
 <div class="row">
-	<h4 class="mb-4">
+	<h4 class="mb-4"
+		*ngIf="brewsList?.length">
 		Folyamatban lévő söreid:
 	</h4>
 	<div class="col-md-12">
