@@ -11,6 +11,7 @@ import { HomeComponent } from './home/home.component';
 import { AuthGuardService } from './services/auth-guard.service';
 import { ProfileComponent } from './profile/profile.component';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
+import { BrewsComponent } from './brews/brews.component';
 
 
 const routes: Routes = [
@@ -26,6 +27,7 @@ const routes: Routes = [
 			{ path: ':id', component: BreweryDetailsComponent }]
 	},
 	{ path: 'profile', component: ProfileComponent, canActivate: [AuthGuardService] },
+	{ path: 'brews', component: BrewsComponent, canActivate: [AuthGuardService] },
 	{ path: 'unauthorized', component: UnauthorizedComponent },
 	{ path: '**', component: ErrorComponent },
 ];
