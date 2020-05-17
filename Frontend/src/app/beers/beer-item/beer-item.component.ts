@@ -12,7 +12,6 @@ import { BrewService } from 'src/app/services/brew.service';
 export class BeerItemComponent implements OnInit {
 
 	@Input() beer: Beer;
-	@Input() id: string;
 
 	dbUrl = environment.dbUrl;
 
@@ -28,7 +27,7 @@ export class BeerItemComponent implements OnInit {
 	}
 
 	public startBrew(): void {
-		this.brewService.startBrew(this.id);
+		this.brewService.startBrew(this.beer._id);
 	}
 
 }

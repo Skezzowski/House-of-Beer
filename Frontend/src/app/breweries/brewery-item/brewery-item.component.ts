@@ -10,7 +10,6 @@ import { environment } from 'src/environments/environment';
 export class BreweryItemComponent implements OnInit {
 
 	@Input() brewery: Brewery;
-	@Input() id: string;
 
 	dbUrl = environment.dbUrl;
 
