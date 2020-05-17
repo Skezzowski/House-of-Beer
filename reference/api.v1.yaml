@@ -438,7 +438,7 @@ paths:
                     type: number
                   timeBeforeNextStage:
                     type: string
-                    description: Órában h mikor következik a következő action
+                    description: 'Órában h mikor következik a következő action, ha -1 akkor elértük a következő staget'
         '401':
           description: Unauthorized
           content:
