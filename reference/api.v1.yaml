@@ -448,6 +448,15 @@ paths:
                 properties:
                   msg:
                     type: string
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
         '500':
           description: Internal Server Error
           content:
@@ -487,15 +496,8 @@ paths:
                 properties:
                   msg:
                     type: string
-        '403':
-          description: Nincs ilyen indexű
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  msg:
-                    type: string
+        '500':
+          description: Internal Server Error
       description: Kitörli a főzést
       tags:
         - brew
