@@ -339,7 +339,7 @@ paths:
             examples: {}
   /brews:
     get:
-      summary: Főzésben lévő sörök listázása
+      summary: Főzésben lévő sörök
       tags:
         - brew
         - protected
@@ -413,7 +413,7 @@ paths:
         - login
   '/brew/:brewId':
     get:
-      summary: Info 1 db brewról
+      summary: Főzés információ
       tags:
         - brew
         - protected
@@ -438,6 +438,7 @@ paths:
                     type: number
                   timeBeforeNextStage:
                     type: string
+                    description: Órában h mikor következik a következő action
         '401':
           description: Unauthorized
           content:
@@ -464,9 +465,44 @@ paths:
             schema:
               type: object
               properties: {}
+    delete:
+      summary: Főzés törlés
+      operationId: 'delete-brew-:brewId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+        '403':
+          description: Nincs ilyen indexű
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+      description: Kitörli a főzést
+      tags:
+        - brew
+        - protected
   /brew/action:
     post:
-      summary: Action gomb lenyomása
+      summary: Főzés akció gomb
       operationId: post-brew-action
       responses:
         '200':
