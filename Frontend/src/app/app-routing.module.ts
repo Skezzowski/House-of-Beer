@@ -12,6 +12,7 @@ import { AuthGuardService } from './services/auth-guard.service';
 import { ProfileComponent } from './profile/profile.component';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 import { BrewsComponent } from './brews/brews.component';
+import { ActiveBrewComponent } from './active-brew/active-brew.component';
 
 
 const routes: Routes = [
@@ -28,6 +29,7 @@ const routes: Routes = [
 	},
 	{ path: 'profile', component: ProfileComponent, canActivate: [AuthGuardService] },
 	{ path: 'brews', component: BrewsComponent, canActivate: [AuthGuardService] },
+	{ path: 'brew/:id', component: ActiveBrewComponent, canActivate: [AuthGuardService] },
 	{ path: 'unauthorized', component: UnauthorizedComponent },
 	{ path: '**', component: ErrorComponent },
 ];
