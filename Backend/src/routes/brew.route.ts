@@ -67,7 +67,7 @@ router.route('/brew/action').post(AuthChecker, (req, res) => {
 });
 
 router.route('/brew/:brewId').get(AuthChecker, (req, res) => {
-	brewModel.findOne({ _id: req.params.brewId })
+	brewModel.findOne({ _id: req.params.brewId, user: req.session?.passport.user._id })
 		.populate('beer')
 		.then(brew => {
 			if (brew) {
@@ -88,7 +88,7 @@ router.route('/brew/:brewId').get(AuthChecker, (req, res) => {
 });
 
 router.route('/brew/:brewId').delete(AuthChecker, (req, res) => {
-	brewModel.deleteOne({ _id: req.params.brewId })
+	brewModel.deleteOne({ _id: req.params.brewId, user: req.session?.passport.user._id })
 		.then(status => {
 			if (status.ok) {
 				res.status(200).json({ msg: 'Törlés sikeres' });
@@ -101,7 +101,5 @@ router.route('/brew/:brewId').delete(AuthChecker, (req, res) => {
 			res.status(500).json({ msg: 'Váratlan hiba' });
 		})
 });
-
-
 
 module.exports = router;

@@ -9,12 +9,7 @@ import { Brew } from '../brews/brew.model';
 })
 export class BrewService {
 
-	private static readonly httpOptions = {
-		withCredentials: true,
-		headers: new HttpHeaders({
-			'Content-Type': 'application/json'
-		})
-	};
+	private static readonly httpOptions = environment.httpOptions;
 
 	constructor(private httpClient: HttpClient) { }
 
@@ -24,5 +19,9 @@ export class BrewService {
 
 	getBrews(): Observable<Brew[]> {
 		return this.httpClient.get<Brew[]>(environment.dbUrl + '/brews', BrewService.httpOptions);
+	}
+
+	getBrew(id: string): Observable<any> {
+		return this.httpClient.get(environment.dbUrl + '/brew/' + id, BrewService.httpOptions);
 	}
 }

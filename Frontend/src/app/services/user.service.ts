@@ -10,12 +10,7 @@ export class UserService {
 
 	constructor(private httpClient: HttpClient) { }
 
-	private static readonly httpOptions = {
-		withCredentials: true,
-		headers: new HttpHeaders({
-			'Content-Type': 'application/json'
-		})
-	};
+	private static readonly httpOptions = environment.httpOptions;
 
 	get isLoggedIn(): boolean {
 		return !!localStorage.getItem('beerLoggedIn');

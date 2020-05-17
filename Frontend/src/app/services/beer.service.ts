@@ -9,12 +9,7 @@ import { environment } from 'src/environments/environment';
 })
 export class BeerService {
 
-	private static readonly httpOptions = {
-		withCredentials: true,
-		headers: new HttpHeaders({
-			'Content-Type': 'application/json'
-		})
-	};
+	private static readonly httpOptions = environment.httpOptions;
 
 	constructor(private httpClient: HttpClient) { }
 
