@@ -18,6 +18,7 @@ import { ErrorComponent } from './error/error.component';
 import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
+import { BrewsComponent } from './brews/brews.component';
 
 @NgModule({
 	declarations: [
@@ -34,7 +35,8 @@ import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 		ErrorComponent,
 		HomeComponent,
 		ProfileComponent,
-		UnauthorizedComponent
+		UnauthorizedComponent,
+		BrewsComponent
 	],
 	imports: [
 		BrowserModule,
