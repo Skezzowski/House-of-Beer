@@ -1,33 +1,27 @@
-import mongoose from 'mongoose';
 import express from 'express';
 import morgan from 'morgan';
 import passport from 'passport';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import session from 'express-session';
-import './models/user.model'
-import { IUser } from './models/user.model';
 import cors from 'cors';
 
+import './models/user.model';
+import './models/beer.model';
+import './models/brewery.model';
 
-let login = require('./routes/login');
+//Routes
+let loginRoutes = require('./routes/login.route');
+let beerRoutes = require('./routes/beer.route');
+let breweryRoutes = require('./routes/brewery.route');
 
 const port = 3000;
 const app = express();
 export const router = express.Router();
 
-// Database
-const userModel = mongoose.model<IUser>('User');
+// Database Config
+require('./cofigurations/database');
 
-const databaseUrlLocal = 'mongodb://localhost:27017/house-of-beer';
-const databaseUrlOnline = 'mongodb+srv://Beer:beer@cluster0-dzhgu.mongodb.net/house-of-beer?retryWrites=true&w=majority'
-
-mongoose.connect(databaseUrlOnline, { useNewUrlParser: true, useUnifiedTopology: true });
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function () {
-    console.log('Database connection ready!')
-});
 app.use(express.static('public'));
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -52,10 +46,12 @@ app.use(cors(corsOptions));
 // Logger
 app.use(morgan('tiny'));
 
-router.use(login);
+router.use(breweryRoutes);
+router.use(loginRoutes);
+router.use(beerRoutes);
 app.use(router);
 
 app.listen(port, () => {
-    console.log('Server is running on port: ' + port)
+    console.log('Server is running on port: ' + port);
 });
 

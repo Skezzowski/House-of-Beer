@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Brewery } from '../brewery.model';
+import { environment } from 'src/environments/environment';
 
 @Component({
 	selector: 'app-brewery-item',
@@ -10,6 +11,8 @@ export class BreweryItemComponent implements OnInit {
 
 	@Input() brewery: Brewery;
 	@Input() id: string;
+
+	dbUrl = environment.dbUrl;
 
 	constructor() { }
 

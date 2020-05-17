@@ -7,7 +7,7 @@
 		<p class="list-group-item-text">{{ brewery.location }}</p>
 	</div>
 	<span class="float-right">
-		<img [src]="brewery.picture"
+		<img [src]="dbUrl+brewery.pictureUrl"
 			 alt="{{ brewery.name }}"
 			 class="img-responsive"
 			 style="max-height: 50px;">
