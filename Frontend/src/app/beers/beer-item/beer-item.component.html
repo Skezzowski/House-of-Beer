@@ -2,7 +2,8 @@
 	<div class="col-md-2 mr-2 d-flex align-items-center"
 		 *ngIf="isLoggedIn()">
 		<button class="btn btn-primary  align-middle"
-				[routerLink]="['/profile',id]">Főzés</button>
+				(click)="startBrew()"
+				[routerLink]="['/brews']">Főzés</button>
 	</div>
 	<div class="col-md">
 		<a style="cursor: pointer;"
