@@ -1,22 +1,15 @@
 <div class="row mb-2">
 	<div class="col-md-6">
-		<a [routerLink]="['/brew',brew.brewId]"
+		<a [routerLink]="['/brew', {brewId:brew.brewId, beerId:brew.beerId}]"
 		   class="list-group-item clearfix action"
-		   *ngIf="brew.actionNeeded">
+		   [class.action]="brew.actionNeeded">
 			<div class="float-left">
 				<h4 class="list-group-item-heading">{{ brew.beerName }}</h4>
 				<p class="list-group-item-text">{{ brew.beerType }}</p>
 			</div>
-			<div class="float-right">
+			<div class="float-right"
+				 *ngIf="brew.actionNeeded">
 				<b>Új feladatod van!</b>
-			</div>
-		</a>
-		<a [routerLink]="['/brew',brew.brewId]"
-		   class="list-group-item clearfix"
-		   *ngIf="!brew.actionNeeded">
-			<div class="float-left">
-				<h4 class="list-group-item-heading">{{ brew.beerName }}</h4>
-				<p class="list-group-item-text">{{ brew.beerType }}</p>
 			</div>
 		</a>
 	</div>

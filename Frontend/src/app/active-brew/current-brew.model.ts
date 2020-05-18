@@ -4,5 +4,6 @@ export class CurrentBrew {
 		description: string
 	};
 	currentStageIndex: number;
-	timeBeforeNextStage: number
+	timeBeforeNextStage: number;
+	beerId: number;
 }

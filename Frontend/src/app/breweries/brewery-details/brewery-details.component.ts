@@ -20,7 +20,7 @@ export class BreweryDetailsComponent implements OnInit {
 		this.route.params
 			.subscribe(
 				(params: Params) => {
-					this.id = params['id'];
+					this.id = params['breweryId'];
 					this.breweryService.getBrewery(this.id).subscribe(res => this.brewery = res);
 				}
 			);

@@ -15,6 +15,7 @@ export class BeerItemComponent implements OnInit {
 	@Input() beer: Beer;
 
 	dbUrl = environment.dbUrl;
+	mouseOver = false;
 
 	constructor(
 		private userService: UserService,

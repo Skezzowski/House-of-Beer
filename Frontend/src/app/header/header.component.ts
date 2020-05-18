@@ -16,7 +16,6 @@ export class HeaderComponent {
 
 	logout() {
 		this.userService.logout().subscribe(data => {
-			this.router.navigate(['/']);
 			this.logoutError = '';
 			localStorage.clear();
 		}, (error: HttpErrorResponse) => {
