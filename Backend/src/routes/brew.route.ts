@@ -1,9 +1,8 @@
 import express from 'express'
 import { AuthChecker } from '../util/auth.middleware';
 import brewModel from '../models/brew.model';
-import { brewsToMenuModel, isActionNeeded, getTimeBeforeNextStage } from '../util/brew.calc';
+import { brewsToMenuModel } from '../util/helper-functions';
 import { MongoError } from 'mongodb';
-import { stat } from 'fs';
 
 const router = express.Router();
 
@@ -40,11 +39,11 @@ router.route('/brew/action').post(AuthChecker, (req, res) => {
 		.populate('beer')
 		.then(brew => {
 			if (brew) {
-				if (!isActionNeeded(brew)) {
+				if (!brew.isActionNeeded()) {
 					throw new Error('Az előző akció még folyamatban van')
 				}
 				if (brew.activeStageIndex === brew.beer.stages.length - 1) {
-					res.status(200).json({ msg: 'A sör már készen van' })
+					res.status(200).json({ msg: 'A sör már az utolsó részben van vagy már kész' })
 				} else {
 					brew.activeStageIndex = brew.activeStageIndex + 1;
 				}
@@ -74,7 +73,7 @@ router.route('/brew/:brewId').get(AuthChecker, (req, res) => {
 				const result = {
 					currentStageIndex: brew.activeStageIndex,
 					stages: brew.beer.stages,
-					timeBeforeNextStage: getTimeBeforeNextStage(brew),
+					timeBeforeNextStage: brew.done ? 0 : brew.getTimeBeforeNextStage(),
 					beerId: brew.beer._id
 				}
 				return res.status(200).json(result);
@@ -101,6 +100,33 @@ router.route('/brew/:brewId').delete(AuthChecker, (req, res) => {
 			console.log(error);
 			res.status(500).json({ msg: 'Váratlan hiba' });
 		})
+});
+
+router.route('/brew/done').post(AuthChecker, (req, res) => {
+	brewModel.findById(req.body.brewId)
+		.populate('beer')
+		.then(brew => {
+			if (brew) {
+				if (!brew.isActionNeeded()) {
+					throw new Error('Amíg fut egy folyamat a sör nem lehet kész')
+				}
+				brew.done = true;
+			} else {
+				throw new Error('Nincs ilyen indexű főzés');
+			}
+			return brew.save();
+		})
+		.then(_ => {
+			return res.status(200).json({ msg: 'Főzés befejezése sikeres!' })
+		})
+		.catch((error: Error) => {
+			if (error instanceof MongoError) {
+				console.log(error)
+				res.status(500).json({ msg: 'Váratlan hiba' });
+			} else {
+				res.status(403).json({ msg: error.message });
+			}
+		});
 });
 
 module.exports = router;
