@@ -21,15 +21,17 @@ const routes: Routes = [
 	{ path: 'register', component: RegisterComponent },
 	{
 		path: 'beers', component: BeersComponent, children: [
-			{ path: ':id', component: BeerDetailsComponent }]
+			{ path: ':beerId', component: BeerDetailsComponent }]
 	},
 	{
 		path: 'breweries', component: BreweriesComponent, children: [
-			{ path: ':id', component: BreweryDetailsComponent }]
+			{ path: ':breweryId', component: BreweryDetailsComponent }]
 	},
 	{ path: 'profile', component: ProfileComponent, canActivate: [AuthGuardService] },
 	{ path: 'brews', component: BrewsComponent, canActivate: [AuthGuardService] },
-	{ path: 'brew/:id', component: ActiveBrewComponent, canActivate: [AuthGuardService] },
+	{
+		path: 'brew', component: ActiveBrewComponent, canActivate: [AuthGuardService]
+	},
 	{ path: 'unauthorized', component: UnauthorizedComponent },
 	{ path: '**', component: ErrorComponent },
 ];

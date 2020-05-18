@@ -74,7 +74,8 @@ router.route('/brew/:brewId').get(AuthChecker, (req, res) => {
 				const result = {
 					currentStageIndex: brew.activeStageIndex,
 					stages: brew.beer.stages,
-					timeBeforeNextStage: getTimeBeforeNextStage(brew)
+					timeBeforeNextStage: getTimeBeforeNextStage(brew),
+					beerId: brew.beer._id
 				}
 				return res.status(200).json(result);
 			} else {

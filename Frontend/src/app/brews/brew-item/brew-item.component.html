@@ -1,6 +1,6 @@
 <div class="row mb-2">
 	<div class="col-md-6">
-		<a [routerLink]="['/brew', brew.brewId, brew.beerId]"
+		<a [routerLink]="['/brew', {brewId:brew.brewId, beerId:brew.beerId}]"
 		   class="list-group-item clearfix action"
 		   [class.action]="brew.actionNeeded">
 			<div class="float-left">
