@@ -1,13 +1,14 @@
 <div class="row">
-	<div class="col-md-2 mr-2 d-flex align-items-center"
-		 *ngIf="isLoggedIn()">
-		<button class="btn btn-primary  align-middle"
-				(click)="startBrew()">Főzés</button>
-	</div>
 	<div class="col-md">
 		<a [routerLink]="[beer._id]"
 		   routerLinkActive="active"
 		   class="list-group-item clearfix">
+			<button class="btn float-left cook mr-2 over"
+					[class.over]="mouseOver"
+					(mouseover)="mouseOver=true"
+					(mouseout)="mouseOver=false"
+					*ngIf="isLoggedIn()"
+					(click)="startBrew()">Főzés</button>
 			<div class="float-left">
 				<h4 class="list-group-item-heading">{{ beer.name }}</h4>
 				<p class="list-group-item-text">{{ beer.type }}</p>
