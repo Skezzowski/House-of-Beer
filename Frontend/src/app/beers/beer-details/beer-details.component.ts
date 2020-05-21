@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { BeerService } from 'src/app/services/beer.service';
 import { Beer } from '../beer.model';
@@ -12,10 +12,10 @@ import { environment } from 'src/environments/environment';
 export class BeerDetailsComponent implements OnInit {
 	beer: Beer;
 	id: string;
+	@Input() colContent: boolean = true;
 	@Output() isLoading: EventEmitter<boolean> = new EventEmitter();
 	dbUrl = environment.dbUrl;
 	loading: boolean = true;
-
 	constructor(private beerService: BeerService, private route: ActivatedRoute) { }
 
 	ngOnInit() {

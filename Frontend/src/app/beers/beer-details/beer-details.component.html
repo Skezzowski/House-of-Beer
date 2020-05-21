@@ -1,24 +1,27 @@
-<div class="ml-5"
+<div class="content"
+	 [class.colContent]="colContent"
 	 *ngIf="!loading">
-	<div class="row">
+	<div class="pic">
 		<img [src]="dbUrl+beer?.pictureUrl"
 			 alt="{{ beer?.name }}"
 			 class="img-responsive"
 			 style="max-height: 300px;">
 	</div>
-	<div class="row">
-		<h1>{{ beer?.name }}</h1>
-	</div>
-	<div class="row">
-		{{ beer?.description }}
-	</div>
-	<div class="row">
-		Típusa: {{ beer?.type }}
-	</div>
-	<div class="row">
-		Hozzávalók: {{ beer?.ingredients }}
-	</div>
-	<div class="row">
-		Elkészítési idő: {{ beer?.timeToCook }} óra
+	<div class="details">
+		<div>
+			<h1>{{ beer?.name }}</h1>
+		</div>
+		<div>
+			{{ beer?.description }}
+		</div>
+		<div>
+			Típusa: {{ beer?.type }}
+		</div>
+		<div>
+			Hozzávalók: {{ beer?.ingredients }}
+		</div>
+		<div>
+			Elkészítési idő: {{ beer?.timeToCook }} óra
+		</div>
 	</div>
 </div>

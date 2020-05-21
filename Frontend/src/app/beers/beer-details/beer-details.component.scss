@@ -1,0 +1,16 @@
+.content{
+	display:flex;
+	justify-content: flex-start;
+	.pic{
+		padding: 5px;
+	}
+	.details{
+		padding: 5px;
+	}
+}
+.colContent{
+	flex-direction: column;
+}
+.short{
+	max-width: 30%;
+}

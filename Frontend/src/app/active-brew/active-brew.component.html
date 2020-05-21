@@ -1,5 +1,6 @@
 <div>
-	<app-beer-details (isLoading)="showComponent($event)">
+	<app-beer-details (isLoading)="showComponent($event)"
+					  [colContent]="false">
 	</app-beer-details>
 	<div *ngIf="!beerDetailsLoading && !loading">
 		<p *ngFor="let action of brew.stages">{{action.name}}</p>
