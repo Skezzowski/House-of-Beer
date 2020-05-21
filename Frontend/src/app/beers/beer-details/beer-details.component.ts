@@ -13,7 +13,6 @@ export class BeerDetailsComponent implements OnInit {
 	beer: Beer;
 	id: string;
 	@Input() colContent: boolean = true;
-	@Output() isLoading: EventEmitter<boolean> = new EventEmitter();
 	dbUrl = environment.dbUrl;
 	loading: boolean = true;
 	constructor(private beerService: BeerService, private route: ActivatedRoute) { }
@@ -26,15 +25,10 @@ export class BeerDetailsComponent implements OnInit {
 					this.beerService.getBeer(this.id).subscribe(
 						res => this.beer = res,
 						console.log,
-						() => this.loadingEnded()
+						() => this.loading = false
 					);
 				}
 			);
-	}
-
-	loadingEnded() {
-		this.isLoading.emit(false);
-		this.loading = false;
 	}
 
 }

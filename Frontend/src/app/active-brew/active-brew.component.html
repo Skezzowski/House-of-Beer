@@ -1,8 +1,19 @@
 <div>
-	<app-beer-details (isLoading)="showComponent($event)"
-					  [colContent]="false">
+	<app-beer-details [colContent]="false">
 	</app-beer-details>
-	<div *ngIf="!beerDetailsLoading && !loading">
-		<p *ngFor="let action of brew.stages">{{action.name}}</p>
+	<div *ngIf="!loading"
+		 class="actions">
+		<ul class="nav bg-light">
+			<li class="nav-item"
+				*ngFor="let action of stageList; index as i"
+				(click)="selectedAction(i)">
+				<div class="nav-link action">{{action.name}}
+				</div>
+			</li>
+		</ul>
+		<div *ngIf="actionDescription">
+			{{actionDescription}}
+			<button class="btn btn-primary">Végrehajtás</button>
+		</div>
 	</div>
 </div>

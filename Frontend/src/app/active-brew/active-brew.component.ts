@@ -16,7 +16,11 @@ export class ActiveBrewComponent implements OnInit {
 	private brewId: string;
 	brew: CurrentBrew;
 	loading: boolean = true;
-	beerDetailsLoading: boolean = true;
+	stageList: {
+		name: string,
+		description: string
+	}[] = [];
+	actionDescription: string;
 
 	constructor(private router: Router, private route: ActivatedRoute, private brewService: BrewService, private beerService: BeerService) {
 		this.loading = true;
@@ -33,6 +37,9 @@ export class ActiveBrewComponent implements OnInit {
 							this.router.navigate(['/unauthorized']);
 							return;
 						}
+						for (let i = 0; i <= this.brew.currentStageIndex; i++)
+							this.stageList.push(this.brew.stages[i + 1]);
+
 						this.loading = false;
 					},
 					(error: HttpErrorResponse) => {
@@ -47,8 +54,8 @@ export class ActiveBrewComponent implements OnInit {
 			error => { console.log(error); });
 	}
 
-	showComponent(value: boolean) {
-		this.beerDetailsLoading = value;
+	selectedAction(index: number) {
+		this.actionDescription = this.stageList[index].description;
 	}
 
 }

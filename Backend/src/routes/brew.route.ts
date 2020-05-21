@@ -74,7 +74,8 @@ router.route('/brew/:brewId').get(AuthChecker, (req, res) => {
 					currentStageIndex: brew.activeStageIndex,
 					stages: brew.beer.stages,
 					timeBeforeNextStage: brew.done ? 0 : brew.getTimeBeforeNextStage(),
-					beerId: brew.beer._id
+					beerId: brew.beer._id,
+					actionNeeded: brew.isActionNeeded()
 				}
 				return res.status(200).json(result);
 			} else {
