@@ -1,7 +1,16 @@
+
 .actions{
 	padding: 5px;
-	.action{
-		color: #007bff;
-		cursor: pointer;
+	.time{
+		padding: 5px;
+	}
+	.actionButtons{
+		.btn:focus {
+			outline: none;
+			box-shadow: none;
+		  }
+	}
+	.actionDescription{
+		padding: 5px;
 	}
 }

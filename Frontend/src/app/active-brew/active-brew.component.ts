@@ -14,6 +14,7 @@ import { BeerService } from '../services/beer.service';
 export class ActiveBrewComponent implements OnInit {
 
 	private brewId: string;
+	private beerId: string;
 	brew: CurrentBrew;
 	loading: boolean = true;
 	stageList: {
@@ -21,6 +22,8 @@ export class ActiveBrewComponent implements OnInit {
 		description: string
 	}[] = [];
 	actionDescription: string;
+	selectedIndex: number;
+	actionButtonNeeded: boolean = false;
 
 	constructor(private router: Router, private route: ActivatedRoute, private brewService: BrewService, private beerService: BeerService) {
 		this.loading = true;
@@ -30,32 +33,61 @@ export class ActiveBrewComponent implements OnInit {
 		this.route.params.subscribe(
 			(params: Params) => {
 				this.brewId = params.brewId;
-				this.brewService.getBrew(this.brewId).subscribe(
-					brew => {
-						this.brew = brew;
-						if (params.beerId !== brew.beerId) {
-							this.router.navigate(['/unauthorized']);
-							return;
-						}
-						for (let i = 0; i <= this.brew.currentStageIndex; i++)
-							this.stageList.push(this.brew.stages[i + 1]);
-
-						this.loading = false;
-					},
-					(error: HttpErrorResponse) => {
-						if (error.status === 401 || error.status === 403) {
-							this.router.navigate(['/unauthorized']);
-						} else {
-							this.router.navigate(['/error']);
-						}
-					}
-				);
+				this.beerId = params.beerId;
+				this.getBrew();
 			},
-			error => { console.log(error); });
+			console.log
+		);
+	}
+
+	getBrew() {
+		this.brewService.getBrew(this.brewId).subscribe(
+			brew => {
+				this.brew = brew;
+				if (this.beerId !== brew.beerId) {
+					this.router.navigate(['/unauthorized']);
+					return;
+				}
+				this.stageList = [];
+				for (let i = 0; i < this.brew.currentStageIndex; i++) {
+					this.stageList.push(this.brew.stages[i + 1]);
+				}
+				if (this.brew.actionNeeded) {
+					this.stageList.push(this.brew.stages[this.brew.currentStageIndex + 1]);
+				}
+				this.loading = false;
+			},
+			(error: HttpErrorResponse) => {
+				if (error.status === 401 || error.status === 403) {
+					this.router.navigate(['/unauthorized']);
+				} else {
+					this.router.navigate(['/error']);
+				}
+			}
+		);
 	}
 
 	selectedAction(index: number) {
+		this.selectedIndex = index;
+		if (this.brew.currentStageIndex === index && this.brew.actionNeeded)
+			this.actionButtonNeeded = true;
+		else
+			this.actionButtonNeeded = false;
+		this.getBrew();
 		this.actionDescription = this.stageList[index].description;
+	}
+
+	doAction() {
+		this.brewService.doAction(this.brewId).subscribe(
+			data => {
+				console.log(data);
+				this.actionButtonNeeded = false;
+				this.actionDescription = undefined;
+				this.selectedIndex = undefined;
+				this.getBrew();
+			},
+			console.log
+		);
 	}
 
 }

@@ -35,7 +35,7 @@ router.route('/brews').get(AuthChecker, (req, res) => {
 });
 
 router.route('/brew/action').post(AuthChecker, (req, res) => {
-	brewModel.findOne({ _id: req.params.brewId, user: req.session?.passport.user._id })
+	brewModel.findOne({ _id: req.body.brewId, user: req.session?.passport.user._id })
 		.populate('beer')
 		.then(brew => {
 			if (brew) {
@@ -104,7 +104,7 @@ router.route('/brew/:brewId').delete(AuthChecker, (req, res) => {
 });
 
 router.route('/brew/done').post(AuthChecker, (req, res) => {
-	brewModel.findOne({ _id: req.params.brewId, user: req.session?.passport.user._id })
+	brewModel.findOne({ _id: req.body.brewId, user: req.session?.passport.user._id })
 		.populate('beer')
 		.then(brew => {
 			if (brew) {

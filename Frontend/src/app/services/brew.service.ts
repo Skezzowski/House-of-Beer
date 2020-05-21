@@ -24,4 +24,8 @@ export class BrewService {
 	getBrew(id: string): Observable<any> {
 		return this.httpClient.get(environment.dbUrl + '/brew/' + id, BrewService.httpOptions);
 	}
+
+	doAction(id: string): Observable<any> {
+		return this.httpClient.post(environment.dbUrl + '/brew/action', { brewId: id }, BrewService.httpOptions);
+	}
 }

@@ -3,17 +3,26 @@
 	</app-beer-details>
 	<div *ngIf="!loading"
 		 class="actions">
-		<ul class="nav bg-light">
-			<li class="nav-item"
-				*ngFor="let action of stageList; index as i"
-				(click)="selectedAction(i)">
-				<div class="nav-link action">{{action.name}}
-				</div>
-			</li>
+
+		<div *ngIf="!brew.actionNeeded"
+			 class="time">
+			A következő eseményig hátralévő idő: {{brew.timeBeforeNextStage}}
+		</div>
+		<ul class="nav bg-light actionButtons">
+			<button *ngFor="let action of stageList; index as i; last as isLast"
+					class="nav-item btn btn-primary rounded-0"
+					[class.btn-danger]="isLast && brew.actionNeeded"
+					[class.disabled]="i === selectedIndex"
+					(click)="i !== selectedIndex && selectedAction(i)">
+				{{action.name}}
+			</button>
 		</ul>
-		<div *ngIf="actionDescription">
+		<div *ngIf="actionDescription"
+			 class="actionDescription">
 			{{actionDescription}}
-			<button class="btn btn-primary">Végrehajtás</button>
+			<button class="btn btn-primary"
+					(click)="doAction()"
+					*ngIf="actionButtonNeeded">Végrehajtás</button>
 		</div>
 	</div>
 </div>
