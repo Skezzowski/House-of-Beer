@@ -13,6 +13,7 @@ export class BreweryDetailsComponent implements OnInit {
 	brewery: Brewery;
 	id: string;
 	dbUrl = environment.dbUrl;
+	loading: boolean = true;
 
 	constructor(private breweryService: BreweryService, private route: ActivatedRoute) { }
 
@@ -21,7 +22,10 @@ export class BreweryDetailsComponent implements OnInit {
 			.subscribe(
 				(params: Params) => {
 					this.id = params['breweryId'];
-					this.breweryService.getBrewery(this.id).subscribe(res => this.brewery = res);
+					this.breweryService.getBrewery(this.id).subscribe(
+						res => this.brewery = res,
+						console.log,
+						() => this.loading = false);
 				}
 			);
 	}

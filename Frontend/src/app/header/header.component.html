@@ -3,12 +3,14 @@
 		<li class="nav-item">
 			<a class="nav-link"
 			   [routerLink]="'/breweries'"
-			   [routerLinkActive]="['active']">Sörüzemek</a>
+			   [routerLinkActive]="['active']"
+			   (click)="logoutError = ''">Sörüzemek</a>
 		</li>
 		<li class="nav-item">
 			<a class="nav-link"
 			   [routerLink]="'/beers'"
-			   [routerLinkActive]="['active']">Sörök</a>
+			   [routerLinkActive]="['active']"
+			   (click)="logoutError = ''">Sörök</a>
 		</li>
 	</ul>
 	<ul class="navbar-nav ml-auto">
@@ -24,23 +26,22 @@
 			   (click)="logout()"
 			   *ngIf="isLoggedIn()">Kijelentkezés</a>
 		</li>
-		<li class="nav-item">
-			<a class="nav-link disabled"
-			   href="#"
-			   aria-disabled="true"
-			   *ngIf="logoutError != ''">{{logoutError}}!</a>
-		</li>
+		<span class="navbar-text text-danger"
+			  *ngIf="logoutError != ''">{{logoutError}}!
+		</span>
 		<li class="nav-item">
 			<a class="nav-link"
 			   [routerLink]="'/login'"
 			   [routerLinkActive]="['active']"
-			   *ngIf="!isLoggedIn()">Bejelentkezés</a>
+			   *ngIf="!isLoggedIn()"
+			   (click)="logoutError = ''">Bejelentkezés</a>
 		</li>
 		<li class="nav-item">
 			<a class="nav-link"
 			   [routerLink]="'/register'"
 			   [routerLinkActive]="['active']"
-			   *ngIf="!isLoggedIn()">Regisztráció</a>
+			   *ngIf="!isLoggedIn()"
+			   (click)="logoutError = ''">Regisztráció</a>
 		</li>
 	</ul>
 </nav>

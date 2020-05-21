@@ -36,7 +36,6 @@ export class ActiveBrewComponent implements OnInit {
 						this.loading = false;
 					},
 					(error: HttpErrorResponse) => {
-						console.log(error);
 						if (error.status === 401 || error.status === 403) {
 							this.router.navigate(['/unauthorized']);
 						} else {

@@ -17,10 +17,10 @@ export class HeaderComponent {
 	logout() {
 		this.userService.logout().subscribe(data => {
 			this.logoutError = '';
-			localStorage.clear();
 		}, (error: HttpErrorResponse) => {
 			this.logoutError = error.error.msg;
 		});
+		localStorage.clear();
 	}
 
 	isLoggedIn() {

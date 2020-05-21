@@ -31,9 +31,9 @@
 			A Jelszó kötelező!
 		</div>
 	</div>
-	<div class="form-group">
-		<label class="text-danger"
-			   *ngIf="errorMsg != ''">
+	<div class="form-group"
+		 *ngIf="errorMsg != ''">
+		<label class="text-danger">
 			{{errorMsg}}!</label>
 	</div>
 	<button type="submit"

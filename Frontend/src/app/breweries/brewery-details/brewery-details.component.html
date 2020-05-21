@@ -1,4 +1,5 @@
-<div class="ml-5">
+<div class="ml-5"
+	 *ngIf="!loading">
 	<div class="row">
 		<img [src]="dbUrl+brewery?.pictureUrl"
 			 alt="{{ brewery?.name }}"
