@@ -7,4 +7,5 @@ export class CurrentBrew {
 	timeBeforeNextStage: number;
 	beerId: string;
 	actionNeeded: boolean;
+	done: boolean;
 }

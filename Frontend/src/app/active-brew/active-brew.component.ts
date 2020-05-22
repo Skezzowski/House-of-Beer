@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { BrewService } from '../services/brew.service';
@@ -11,7 +11,7 @@ import { BeerService } from '../services/beer.service';
 	templateUrl: './active-brew.component.html',
 	styleUrls: ['./active-brew.component.scss']
 })
-export class ActiveBrewComponent implements OnInit {
+export class ActiveBrewComponent implements OnInit, OnDestroy {
 
 	private brewId: string;
 	private beerId: string;
@@ -24,6 +24,9 @@ export class ActiveBrewComponent implements OnInit {
 	actionDescription: string;
 	selectedIndex: number;
 	actionButtonNeeded: boolean = false;
+	remainingHours: number = 0;
+	remainingMinutes: number = 0;
+	interval: any;
 
 	constructor(private router: Router, private route: ActivatedRoute, private brewService: BrewService, private beerService: BeerService) {
 		this.loading = true;
@@ -35,9 +38,16 @@ export class ActiveBrewComponent implements OnInit {
 				this.brewId = params.brewId;
 				this.beerId = params.beerId;
 				this.getBrew();
+				this.getBrewRemaininTime();
 			},
 			console.log
 		);
+	}
+
+	getBrewRemaininTime() {
+		this.interval = setInterval(() => {
+			this.getBrew();
+		}, 10000);
 	}
 
 	getBrew() {
@@ -53,7 +63,13 @@ export class ActiveBrewComponent implements OnInit {
 					this.stageList.push(this.brew.stages[i + 1]);
 				}
 				if (this.brew.actionNeeded) {
-					this.stageList.push(this.brew.stages[this.brew.currentStageIndex + 1]);
+					if (this.brew.currentStageIndex + 1 === this.brew.stages.length) {
+						this.doAction();
+					} else {
+						this.stageList.push(this.brew.stages[this.brew.currentStageIndex + 1]);
+					}
+				} else {
+					this.setRemainingTime();
 				}
 				this.loading = false;
 			},
@@ -73,7 +89,6 @@ export class ActiveBrewComponent implements OnInit {
 			this.actionButtonNeeded = true;
 		else
 			this.actionButtonNeeded = false;
-		this.getBrew();
 		this.actionDescription = this.stageList[index].description;
 	}
 
@@ -88,6 +103,18 @@ export class ActiveBrewComponent implements OnInit {
 			},
 			console.log
 		);
+	}
+
+	setRemainingTime() {
+		this.remainingMinutes = Math.trunc(60 * this.brew.timeBeforeNextStage);
+		console.log(this.remainingMinutes);
+		this.remainingHours = Math.trunc(this.remainingMinutes / 60);
+		console.log(this.remainingMinutes / 60);
+		this.remainingMinutes = this.remainingMinutes - 60 * this.remainingHours;
+	}
+
+	ngOnDestroy(): void {
+		clearInterval(this.interval);
 	}
 
 }

@@ -4,9 +4,9 @@
 	<div *ngIf="!loading"
 		 class="actions">
 
-		<div *ngIf="!brew.actionNeeded"
+		<div *ngIf="!brew.actionNeeded && !brew.done"
 			 class="time">
-			A következő eseményig hátralévő idő: {{brew.timeBeforeNextStage}}
+			A következő eseményig hátralévő idő: {{remainingHours}} óra {{remainingMinutes}} perc.
 		</div>
 		<ul class="nav bg-light actionButtons">
 			<button *ngFor="let action of stageList; index as i; last as isLast"
@@ -16,6 +16,10 @@
 					(click)="i !== selectedIndex && selectedAction(i)">
 				{{action.name}}
 			</button>
+			<div class="navbar-text ml-auto"
+				 *ngIf="brew.done">
+				A főzés befejeződött, jöhet a kóstolás! Egészségedre!
+			</div>
 		</ul>
 		<div *ngIf="actionDescription"
 			 class="actionDescription">
