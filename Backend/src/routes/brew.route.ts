@@ -34,6 +34,25 @@ router.route('/brews').get(AuthChecker, (req, res) => {
 		});
 });
 
+router.route('/brews/isActionNeeded').get(AuthChecker, (req, res) => {
+	brewModel.find({ user: req.session?.passport.user._id })
+		.populate('beer')
+		.then(brews => {
+			let actionNeeded = false;
+			for (let brew of brews) {
+				if (brew.isActionNeeded()) {
+					actionNeeded = true;
+					break;
+				}
+			}
+			res.status(200).json(actionNeeded);
+		})
+		.catch(error => {
+			console.log(error);
+			res.status(500).json({ msg: 'Váratlan hiba' });
+		});
+});
+
 router.route('/brew/action').post(AuthChecker, (req, res) => {
 	brewModel.findOne({ _id: req.body.brewId, user: req.session?.passport.user._id })
 		.populate('beer')
@@ -45,7 +64,10 @@ router.route('/brew/action').post(AuthChecker, (req, res) => {
 				if (brew.activeStageIndex === brew.beer.stages.length - 1) {
 					res.status(200).json({ msg: 'A sör már az utolsó részben van vagy már kész' })
 				} else {
-					brew.activeStageIndex = brew.activeStageIndex + 1;
+					if (brew.activeStageIndex + 1 == brew.beer.stages.length)
+						brew.done = true;
+					else
+						brew.activeStageIndex = brew.activeStageIndex + 1;
 				}
 			} else {
 				throw new Error('Nincs ilyen indexű főzés');
@@ -75,7 +97,8 @@ router.route('/brew/:brewId').get(AuthChecker, (req, res) => {
 					stages: brew.beer.stages,
 					timeBeforeNextStage: brew.done ? 0 : brew.getTimeBeforeNextStage(),
 					beerId: brew.beer._id,
-					actionNeeded: brew.isActionNeeded()
+					actionNeeded: brew.isActionNeeded(),
+					done: brew.done
 				}
 				return res.status(200).json(result);
 			} else {
@@ -101,33 +124,6 @@ router.route('/brew/:brewId').delete(AuthChecker, (req, res) => {
 			console.log(error);
 			res.status(500).json({ msg: 'Váratlan hiba' });
 		})
-});
-
-router.route('/brew/done').post(AuthChecker, (req, res) => {
-	brewModel.findOne({ _id: req.body.brewId, user: req.session?.passport.user._id })
-		.populate('beer')
-		.then(brew => {
-			if (brew) {
-				if (!brew.isActionNeeded()) {
-					throw new Error('Amíg fut egy folyamat a sör nem lehet kész')
-				}
-				brew.done = true;
-			} else {
-				throw new Error('Nincs ilyen indexű főzés');
-			}
-			return brew.save();
-		})
-		.then(_ => {
-			return res.status(200).json({ msg: 'Főzés befejezése sikeres!' })
-		})
-		.catch((error: Error) => {
-			if (error instanceof MongoError) {
-				console.log(error)
-				res.status(500).json({ msg: 'Váratlan hiba' });
-			} else {
-				res.status(403).json({ msg: error.message });
-			}
-		});
 });
 
 module.exports = router;
