@@ -62,12 +62,9 @@ router.route('/brew/action').post(AuthChecker, (req, res) => {
 					throw new Error('Az előző akció még folyamatban van')
 				}
 				if (brew.activeStageIndex === brew.beer.stages.length - 1) {
-					res.status(200).json({ msg: 'A sör már az utolsó részben van vagy már kész' })
+					brew.done = true;
 				} else {
-					if (brew.activeStageIndex + 1 == brew.beer.stages.length)
-						brew.done = true;
-					else
-						brew.activeStageIndex = brew.activeStageIndex + 1;
+					brew.activeStageIndex = brew.activeStageIndex + 1;
 				}
 			} else {
 				throw new Error('Nincs ilyen indexű főzés');
