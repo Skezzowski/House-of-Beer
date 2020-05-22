@@ -17,6 +17,10 @@ export class BrewService {
 		return this.httpClient.post(environment.dbUrl + '/brew/start', { beerId }, BrewService.httpOptions);
 	}
 
+	isActionNeeded(): Observable<any> {
+		return this.httpClient.get<Brew[]>(environment.dbUrl + '/brews/isActionNeeded', BrewService.httpOptions);
+	}
+
 	getBrews(): Observable<Brew[]> {
 		return this.httpClient.get<Brew[]>(environment.dbUrl + '/brews', BrewService.httpOptions);
 	}

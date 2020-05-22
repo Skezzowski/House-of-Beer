@@ -16,6 +16,7 @@
 	<ul class="navbar-nav ml-auto">
 		<li class="nav-item">
 			<a class="nav-link"
+			   [class.text-danger]="actionNeeded"
 			   [routerLink]="'/brews'"
 			   [routerLinkActive]="['active']"
 			   *ngIf="isLoggedIn()">Aktív főzések</a>
