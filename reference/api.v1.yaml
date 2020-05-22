@@ -592,6 +592,61 @@ paths:
               properties:
                 brewId:
                   type: string
+  /profile:
+    get:
+      summary: Profile
+      tags:
+        - user
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  username:
+                    type: string
+                  name:
+                    type: string
+        '401':
+          description: Unauthorized
+      operationId: get-profile
+      description: felhasználó adatai
+  /profile/chpasswd:
+    post:
+      summary: Password change
+      operationId: post-profile-chpasswd
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      tags:
+        - user
+      description: felhasználó jelszó módosítás
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                oldpasswd:
+                  type: string
+                newpasswd:
+                  type: string
+              required:
+                - oldpasswd
+                - newpasswd
 components:
   schemas:
     user:
