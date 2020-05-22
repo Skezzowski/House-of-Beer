@@ -95,7 +95,6 @@ export class ActiveBrewComponent implements OnInit, OnDestroy {
 	doAction() {
 		this.brewService.doAction(this.brewId).subscribe(
 			data => {
-				console.log(data);
 				this.actionButtonNeeded = false;
 				this.actionDescription = undefined;
 				this.selectedIndex = undefined;
@@ -107,9 +106,7 @@ export class ActiveBrewComponent implements OnInit, OnDestroy {
 
 	setRemainingTime() {
 		this.remainingMinutes = Math.trunc(60 * this.brew.timeBeforeNextStage);
-		console.log(this.remainingMinutes);
 		this.remainingHours = Math.trunc(this.remainingMinutes / 60);
-		console.log(this.remainingMinutes / 60);
 		this.remainingMinutes = this.remainingMinutes - 60 * this.remainingHours;
 	}
 
