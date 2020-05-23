@@ -23,14 +23,11 @@ export class ActiveBrewComponent implements OnInit, OnDestroy {
 	}[] = [];
 	actionDescription: string;
 	selectedIndex: number;
-	actionButtonNeeded: boolean = false;
 	remainingHours: number = 0;
 	remainingMinutes: number = 0;
 	interval: any;
 
-	constructor(private router: Router, private route: ActivatedRoute, private brewService: BrewService, private beerService: BeerService) {
-		this.loading = true;
-	}
+	constructor(private router: Router, private route: ActivatedRoute, private brewService: BrewService, private beerService: BeerService) { }
 
 	ngOnInit(): void {
 		this.route.params.subscribe(
@@ -83,21 +80,18 @@ export class ActiveBrewComponent implements OnInit, OnDestroy {
 		);
 	}
 
-	selectedAction(index: number) {
+	selectedAction(index?: number) {
 		this.selectedIndex = index;
-		if (this.brew.currentStageIndex === index && this.brew.actionNeeded)
-			this.actionButtonNeeded = true;
+		if (index >= 0)
+			this.actionDescription = this.stageList[index].description;
 		else
-			this.actionButtonNeeded = false;
-		this.actionDescription = this.stageList[index].description;
+			this.actionDescription = undefined;
 	}
 
 	doAction() {
 		this.brewService.doAction(this.brewId).subscribe(
-			data => {
-				this.actionButtonNeeded = false;
-				this.actionDescription = undefined;
-				this.selectedIndex = undefined;
+			() => {
+				this.selectedAction();
 				this.getBrew();
 			},
 			console.log
@@ -105,6 +99,7 @@ export class ActiveBrewComponent implements OnInit, OnDestroy {
 	}
 
 	setRemainingTime() {
+		console.log(this.brew.timeBeforeNextStage);
 		this.remainingMinutes = Math.trunc(60 * this.brew.timeBeforeNextStage);
 		this.remainingHours = Math.trunc(this.remainingMinutes / 60);
 		this.remainingMinutes = this.remainingMinutes - 60 * this.remainingHours;

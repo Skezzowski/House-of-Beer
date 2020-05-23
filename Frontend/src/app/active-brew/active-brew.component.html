@@ -6,7 +6,13 @@
 
 		<div *ngIf="!brew.actionNeeded && !brew.done"
 			 class="time">
-			A következő eseményig hátralévő idő: {{remainingHours}} óra {{remainingMinutes}} perc.
+			A következő eseményig hátralévő idő:
+			<span *ngIf="remainingHours !== 0 || remainingMinutes !== 0">
+				{{remainingHours}} óra {{remainingMinutes}} perc.
+			</span>
+			<span *ngIf="remainingHours === 0 && remainingMinutes === 0">
+				kevesebb, mint 1 perc.
+			</span>
 		</div>
 		<ul class="nav bg-light actionButtons">
 			<button *ngFor="let action of stageList; index as i; last as isLast"
@@ -26,7 +32,9 @@
 			{{actionDescription}}
 			<button class="btn btn-primary"
 					(click)="doAction()"
-					*ngIf="actionButtonNeeded">Végrehajtás</button>
+					*ngIf="brew.currentStageIndex === selectedIndex && brew.actionNeeded">
+				Végrehajtás
+			</button>
 		</div>
 	</div>
 </div>
