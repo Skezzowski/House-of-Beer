@@ -13,6 +13,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 import { BrewsComponent } from './brews/brews.component';
 import { ActiveBrewComponent } from './active-brew/active-brew.component';
+import { PasswordComponent } from './profile/password/password.component';
 
 
 const routes: Routes = [
@@ -28,6 +29,7 @@ const routes: Routes = [
 			{ path: ':breweryId', component: BreweryDetailsComponent }]
 	},
 	{ path: 'profile', component: ProfileComponent, canActivate: [AuthGuardService] },
+	{ path: 'profile/chpasswd', component: PasswordComponent, canActivate: [AuthGuardService] },
 	{ path: 'brews', component: BrewsComponent, canActivate: [AuthGuardService] },
 	{
 		path: 'brew', component: ActiveBrewComponent, canActivate: [AuthGuardService]

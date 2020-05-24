@@ -21,6 +21,7 @@ import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 import { BrewsComponent } from './brews/brews.component';
 import { BrewItemComponent } from './brews/brew-item/brew-item.component';
 import { ActiveBrewComponent } from './active-brew/active-brew.component';
+import { PasswordComponent } from './profile/password/password.component';
 
 @NgModule({
 	declarations: [
@@ -40,7 +41,8 @@ import { ActiveBrewComponent } from './active-brew/active-brew.component';
 		UnauthorizedComponent,
 		BrewsComponent,
 		BrewItemComponent,
-		ActiveBrewComponent
+		ActiveBrewComponent,
+		PasswordComponent
 	],
 	imports: [
 		BrowserModule,

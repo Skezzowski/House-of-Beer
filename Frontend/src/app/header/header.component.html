@@ -23,6 +23,12 @@
 		</li>
 		<li class="nav-item">
 			<a class="nav-link"
+			   [routerLink]="'/profile'"
+			   [routerLinkActive]="['active']"
+			   *ngIf="isLoggedIn()">Profilom</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link"
 			   [routerLink]="'/'"
 			   (click)="logout()"
 			   *ngIf="isLoggedIn()">Kijelentkezés</a>

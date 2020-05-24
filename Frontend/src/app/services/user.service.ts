@@ -32,4 +32,12 @@ export class UserService {
 		const userData = { username, name: fullname, password };
 		return this.httpClient.post(environment.dbUrl + '/register', userData, UserService.httpOptions);
 	}
+
+	profile(): Observable<any> {
+		return this.httpClient.get(environment.dbUrl + '/profile', UserService.httpOptions);
+	}
+
+	changePasswd(oldpswd: string, newpswd: string): Observable<any> {
+		return this.httpClient.post(environment.dbUrl + '/profile/chpasswd', { oldpswd, newpswd }, UserService.httpOptions);
+	}
 }
