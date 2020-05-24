@@ -16,7 +16,6 @@ export class BrewsComponent implements OnInit {
 	ngOnInit(): void {
 		this.brewService.getBrews().subscribe(
 			(res) => {
-				console.log(res);
 				this.brewsList = res;
 			},
 			error => { console.log(error); },
