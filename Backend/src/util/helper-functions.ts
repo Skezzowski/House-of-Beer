@@ -27,11 +27,13 @@ export function millisecondsToHour(millisec: number) {
 }
 
 
-export class IError extends Error {
+export class CustomError extends Error {
 	status: number
 
 	constructor(status: number, msg: string) {
 		super(msg);
+		Object.setPrototypeOf(this, new.target.prototype)
+		this.name = CustomError.name
 		this.status = status;
 	}
 }
