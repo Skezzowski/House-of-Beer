@@ -4,4 +4,5 @@ export class Brew {
 	public beerType: string;
 	public actionNeeded: boolean;
 	public beerId: string;
+	public done: boolean;
 }

@@ -14,7 +14,11 @@ export class BrewsComponent implements OnInit {
 	constructor(private brewService: BrewService) { }
 
 	ngOnInit(): void {
-		this.brewService.getBrews().subscribe(res => this.brewsList = res,
+		this.brewService.getBrews().subscribe(
+			(res) => {
+				console.log(res);
+				this.brewsList = res;
+			},
 			error => { console.log(error); },
 			() => this.loading = false);
 	}
