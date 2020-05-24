@@ -47,11 +47,13 @@ let loginRoutes = require('./routes/login.route');
 let beerRoutes = require('./routes/beer.route');
 let breweryRoutes = require('./routes/brewery.route');
 let brewRoutes = require('./routes/brew.route');
+let profileRoutes = require('./routes/profile.route');
 
 router.use(breweryRoutes);
 router.use(loginRoutes);
 router.use(beerRoutes);
 router.use(brewRoutes);
+router.use(profileRoutes);
 app.use(router);
 
 app.listen(port, () => {

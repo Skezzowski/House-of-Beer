@@ -1,4 +1,5 @@
 import { IBrew, IBrewMenuModel } from "../models/brew.model";
+import { stat } from "fs";
 
 export function brewsToMenuModel(brews: IBrew[]): IBrewMenuModel[] {
 	const result: IBrewMenuModel[] = []
@@ -23,4 +24,14 @@ export function hourToMilliseconds(hour: number): number {
 
 export function millisecondsToHour(millisec: number) {
 	return millisec / 3600000;
+}
+
+
+export class IError extends Error {
+	status: number
+
+	constructor(status: number, msg: string) {
+		super(msg);
+		this.status = status;
+	}
 }
