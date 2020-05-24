@@ -45,4 +45,12 @@ router.route('/register').post(userNamePasswordChecker, (req, res) => {
 		})
 });
 
+router.route('/authcheck').get((req, res) => {
+	if (req.session?.passport.user) {
+		return res.status(200).json({ isAuthenticated: true });
+	} else {
+		return res.status(200).json({ isAuthenticated: false });
+	}
+});
+
 module.exports = router;
