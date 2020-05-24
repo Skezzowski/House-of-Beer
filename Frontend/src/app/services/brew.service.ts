@@ -32,4 +32,8 @@ export class BrewService {
 	doAction(id: string): Observable<any> {
 		return this.httpClient.post(environment.dbUrl + '/brew/action', { brewId: id }, BrewService.httpOptions);
 	}
+
+	deleteBrew(id: string): Observable<any> {
+		return this.httpClient.delete(environment.dbUrl + '/brew/' + id, BrewService.httpOptions);
+	}
 }

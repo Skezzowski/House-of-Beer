@@ -1,5 +1,5 @@
 <div class="row mb-2">
-	<div class="col-md-6">
+	<div class="col-md-6 pr-0">
 		<a [routerLink]="['/brew', {brewId:brew.brewId, beerId:brew.beerId}]"
 		   class="list-group-item clearfix action finished"
 		   [class.action]="brew.actionNeeded"
@@ -8,14 +8,15 @@
 				<h4 class="list-group-item-heading">{{ brew.beerName }}</h4>
 				<p class="list-group-item-text">{{ brew.beerType }}</p>
 			</div>
-			<div class="float-right"
-				 *ngIf="brew.actionNeeded">
-				<b>Új feladatod van!</b>
-			</div>
-			<div class="float-right"
-				 *ngIf="brew.done">
-				<b>Kész! :)</b>
+			<div class="float-right">
+				<b *ngIf="brew.actionNeeded">Új feladatod van!</b>
+				<b *ngIf="brew.done">Kész! :)</b>
 			</div>
 		</a>
 	</div>
+	<button class="btn btn-danger over"
+			[class.over]="mouseOver"
+			(mouseover)="mouseOver=true"
+			(mouseout)="mouseOver=false"
+			(click)="deleteBrew()">X</button>
 </div>

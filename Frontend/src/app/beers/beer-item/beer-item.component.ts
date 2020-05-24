@@ -32,7 +32,6 @@ export class BeerItemComponent implements OnInit {
 	public startBrew(): void {
 		this.brewService.startBrew(this.beer._id).subscribe(res => {
 			this.router.navigate(['/brews']);
-			console.log(res);
 		});
 	}
 

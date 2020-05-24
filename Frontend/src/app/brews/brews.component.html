@@ -10,8 +10,12 @@
 		<div class="col-md-12">
 			<app-brew-item *ngFor="let brew of brewsList"
 						   [brew]="brew"
-						   [id]="brew._id">
+						   [id]="brew._id"
+						   (delete)="deleteBrew($event)">
 			</app-brew-item>
+			<div *ngIf="errorMsg != ''">
+				{{errorMsg}}
+			</div>
 		</div>
 	</div>
 </div>
