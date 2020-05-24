@@ -656,6 +656,22 @@ paths:
               required:
                 - oldpasswd
                 - newpasswd
+  /authcheck:
+    get:
+      summary: AuthCheck
+      tags:
+        - login
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  isAuthenticated:
+                    type: boolean
+      operationId: get-authcheck
 components:
   schemas:
     user:
