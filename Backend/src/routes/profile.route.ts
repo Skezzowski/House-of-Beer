@@ -1,12 +1,12 @@
 import express from 'express';
-import { AuthChecker } from '../util/auth.middleware';
+import { authChecker } from '../util/middlewares';
 import userModel from '../models/user.model';
 import { IError } from '../util/helper-functions';
 import { MongoError } from 'mongodb';
 
 let router = express.Router();
 
-router.route('/profile').get(AuthChecker, (req, res) => {
+router.route('/profile').get(authChecker, (req, res) => {
 
 	const user = {
 		name: req.session?.passport.user.name,
@@ -16,7 +16,7 @@ router.route('/profile').get(AuthChecker, (req, res) => {
 	return res.status(200).json(user);
 });
 
-router.route('/profile/chpasswd').post(AuthChecker, (req, res) => {
+router.route('/profile/chpasswd').post(authChecker, (req, res) => {
 	userModel.findById(req.session?.passport.user._id)
 		.then(async (user) => {
 			if (!req.body.oldpswd || !req.body.newpswd) {
@@ -37,12 +37,16 @@ router.route('/profile/chpasswd').post(AuthChecker, (req, res) => {
 		.then(_ => {
 			return res.status(200).json({ msg: 'Sikeres jelszóváltás' })
 		})
-		.catch((error: MongoError | IError) => {
+		.catch((error: MongoError | IError | any) => {
 			if (error instanceof MongoError) {
 				console.log(error);
 				return res.status(500).json({ msg: 'Adatbázis hiba' });
 			}
-			return res.status(error.status).json({ msg: error.message });
+			if (error instanceof IError) {
+				return res.status(error.status).json({ msg: error.message });
+			}
+			console.log(error);
+			return res.status(500).json({ msg: 'Váratlan hiba' });
 		});
 });
 

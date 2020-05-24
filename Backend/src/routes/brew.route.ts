@@ -1,12 +1,12 @@
 import express from 'express'
-import { AuthChecker } from '../util/auth.middleware';
+import { authChecker } from '../util/middlewares';
 import brewModel from '../models/brew.model';
 import { brewsToMenuModel } from '../util/helper-functions';
 import { MongoError } from 'mongodb';
 
 const router = express.Router();
 
-router.route('/brew/start').post(AuthChecker, (req, res) => {
+router.route('/brew/start').post(authChecker, (req, res) => {
 	if (!req.body.beerId) {
 		return res.status(403).json({ msg: 'Hiányzó adat' })
 	}
@@ -22,7 +22,7 @@ router.route('/brew/start').post(AuthChecker, (req, res) => {
 		});
 });
 
-router.route('/brews').get(AuthChecker, (req, res) => {
+router.route('/brews').get(authChecker, (req, res) => {
 	brewModel.find({ user: req.session?.passport.user._id })
 		.populate('beer')
 		.then(brews => {
@@ -34,7 +34,7 @@ router.route('/brews').get(AuthChecker, (req, res) => {
 		});
 });
 
-router.route('/brews/isActionNeeded').get(AuthChecker, (req, res) => {
+router.route('/brews/isActionNeeded').get(authChecker, (req, res) => {
 	brewModel.find({ user: req.session?.passport.user._id })
 		.populate('beer')
 		.then(brews => {
@@ -53,7 +53,7 @@ router.route('/brews/isActionNeeded').get(AuthChecker, (req, res) => {
 		});
 });
 
-router.route('/brew/action').post(AuthChecker, (req, res) => {
+router.route('/brew/action').post(authChecker, (req, res) => {
 	brewModel.findOne({ _id: req.body.brewId, user: req.session?.passport.user._id })
 		.populate('beer')
 		.then(brew => {
@@ -84,7 +84,7 @@ router.route('/brew/action').post(AuthChecker, (req, res) => {
 		});
 });
 
-router.route('/brew/:brewId').get(AuthChecker, (req, res) => {
+router.route('/brew/:brewId').get(authChecker, (req, res) => {
 	brewModel.findOne({ _id: req.params.brewId, user: req.session?.passport.user._id })
 		.populate('beer')
 		.then(brew => {
@@ -108,7 +108,7 @@ router.route('/brew/:brewId').get(AuthChecker, (req, res) => {
 		})
 });
 
-router.route('/brew/:brewId').delete(AuthChecker, (req, res) => {
+router.route('/brew/:brewId').delete(authChecker, (req, res) => {
 	brewModel.deleteOne({ _id: req.params.brewId, user: req.session?.passport.user._id })
 		.then(status => {
 			if (status.ok) {
