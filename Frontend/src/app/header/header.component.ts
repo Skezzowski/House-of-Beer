@@ -1,61 +1,55 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { BrewService } from '../services/brew.service';
-import { Observable, interval, of, Subscription } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { Observable, of, Subscription, timer, pipe, Subject } from 'rxjs';
+import { switchMap, tap, repeatWhen } from 'rxjs/operators';
 
 @Component({
 	selector: 'app-header',
 	templateUrl: './header.component.html',
 	styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit, OnDestroy {
+export class HeaderComponent implements OnInit, OnDestroy, OnChanges {
 
 	logoutError: string = '';
+	private readonly _start = new Subject<void>();
 	interval: Subscription;
 	actionNeeded: boolean = false;
-	_isLoggedIn: boolean = false;
+	@Input() isLoggedIn: boolean = false;
 	private loading: boolean = false;
 
 	constructor(private userService: UserService, private brewService: BrewService) { }
 
 	ngOnInit(): void {
-		this.interval = this.isActionNeeded()
+		this.interval = timer(0, 5000)
 			.pipe(
 				switchMap(() => {
-					return interval(5000)
-						.pipe(
-							switchMap(() => {
-								return this.isActionNeeded();
-							})
-						);
-				})
-			).subscribe(
+					return this.isActionNeeded();
+				}),
+				repeatWhen(() => this._start)
+			)
+			.subscribe(
 				undefined,
 				console.log
 			);
+	}
 
+	ngOnChanges(changes: SimpleChanges): void {
+		this._start.next();
 	}
 
 	isActionNeeded(): Observable<boolean> {
-		return this.isLoggedIn()
+		if (!this.isLoggedIn || this.loading)
+			return of(false);
+		this.loading = true;
+		return this.brewService.isActionNeeded()
 			.pipe(
-				switchMap(isLoggedIn => {
-					if (isLoggedIn && !this.loading) {
-						this.loading = true;
-						return this.brewService.isActionNeeded()
-							.pipe(
-								map(actionNeeded => {
-									this.loading = false;
-									this.actionNeeded = actionNeeded;
-									return actionNeeded;
-								}
-								));
-					}
-					return of(false);
-				})
-			);
+				tap(actionNeeded => {
+					this.loading = false;
+					this.actionNeeded = actionNeeded;
+				}
+				));
 	}
 
 	ngOnDestroy(): void {
@@ -63,17 +57,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
 	}
 
 	logout() {
-		this.userService.logout().subscribe(data => {
-			this.logoutError = '';
-			this.loading = false;
-			this.userService.loggedOut();
-		}, (error: HttpErrorResponse) => {
-			this.logoutError = error.error.msg;
-		});
-	}
-
-	isLoggedIn(): Observable<boolean> {
-		return this.userService.isLoggedIn();
+		this.userService.logout()
+			.pipe(
+				tap(() => this.loading = false)
+			)
+			.subscribe(() =>
+				this.logoutError = '',
+				(error: HttpErrorResponse) => {
+					this.logoutError = error.error.msg;
+				});
 	}
 
 }

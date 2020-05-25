@@ -23,7 +23,6 @@ export class LoginComponent implements OnInit {
 	submit(f: NgForm) {
 		this.userServie.login(f.value.username, f.value.password).subscribe(data => {
 			this.router.navigate(['/beers']);
-			this.userServie.loggedIn();
 		}, (error: HttpErrorResponse) => {
 			this.errorMsg = error.error.msg;
 		});

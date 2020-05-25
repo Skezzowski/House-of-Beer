@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { first, switchMap } from 'rxjs/operators';
+import { Observable, BehaviorSubject, iif, of } from 'rxjs';
+import { first, switchMap, tap, map } from 'rxjs/operators';
 
 @Injectable({
 	providedIn: 'root'
@@ -29,20 +29,20 @@ export class UserService {
 		return this._isLoggedIn;
 	}
 
-	loggedOut() {
-		this._isLoggedIn.next(false);
-	}
-
-	loggedIn() {
-		this._isLoggedIn.next(true);
-	}
-
 	logout(): Observable<any> {
-		return this.httpClient.post(environment.dbUrl + '/logout', {}, UserService.httpOptions).pipe(first());
+		return this.httpClient.post(environment.dbUrl + '/logout', {}, UserService.httpOptions)
+			.pipe(first())
+			.pipe(
+				tap(() => this._isLoggedIn.next(false))
+			);
 	}
 
 	login(username: string, password: string): Observable<any> {
-		return this.httpClient.post(environment.dbUrl + '/login', { username, password }, UserService.httpOptions).pipe(first());
+		return this.httpClient.post(environment.dbUrl + '/login', { username, password }, UserService.httpOptions)
+			.pipe(first())
+			.pipe(
+				tap(() => this._isLoggedIn.next(true))
+			);;
 	}
 
 	register(username: string, fullname: string, password: string): Observable<any> {
