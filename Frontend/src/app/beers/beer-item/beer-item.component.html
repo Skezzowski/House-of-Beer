@@ -7,7 +7,7 @@
 					[class.over]="mouseOver"
 					(mouseover)="mouseOver=true"
 					(mouseout)="mouseOver=false"
-					*ngIf="isLoggedIn()"
+					*ngIf="(isLoggedIn() | async)"
 					(click)="startBrew()">Főzés</button>
 			<div class="float-left">
 				<h4 class="list-group-item-heading">{{ beer.name }}</h4>

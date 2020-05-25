@@ -19,19 +19,19 @@
 			   [class.text-danger]="actionNeeded"
 			   [routerLink]="'/brews'"
 			   [routerLinkActive]="['active']"
-			   *ngIf="isLoggedIn()">Aktív főzések</a>
+			   *ngIf="isLoggedIn() | async">Aktív főzések</a>
 		</li>
 		<li class="nav-item">
 			<a class="nav-link"
 			   [routerLink]="'/profile'"
 			   [routerLinkActive]="['active']"
-			   *ngIf="isLoggedIn()">Profilom</a>
+			   *ngIf="isLoggedIn() | async">Profilom</a>
 		</li>
 		<li class="nav-item">
 			<a class="nav-link"
 			   [routerLink]="'/'"
 			   (click)="logout()"
-			   *ngIf="isLoggedIn()">Kijelentkezés</a>
+			   *ngIf="isLoggedIn() | async">Kijelentkezés</a>
 		</li>
 		<span class="navbar-text text-danger"
 			  *ngIf="logoutError != ''">{{logoutError}}!
@@ -40,14 +40,14 @@
 			<a class="nav-link"
 			   [routerLink]="'/login'"
 			   [routerLinkActive]="['active']"
-			   *ngIf="!isLoggedIn()"
+			   *ngIf="(isLoggedIn() | async) === false"
 			   (click)="logoutError = ''">Bejelentkezés</a>
 		</li>
 		<li class="nav-item">
 			<a class="nav-link"
 			   [routerLink]="'/register'"
 			   [routerLinkActive]="['active']"
-			   *ngIf="!isLoggedIn()"
+			   *ngIf="(isLoggedIn() | async) === false"
 			   (click)="logoutError = ''">Regisztráció</a>
 		</li>
 	</ul>

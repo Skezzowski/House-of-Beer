@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Brewery } from '../breweries/brewery.model';
-import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { first } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -14,10 +15,10 @@ export class BreweryService {
 	constructor(private httpClient: HttpClient) { }
 
 	getBreweries(): Observable<Brewery[]> {
-		return this.httpClient.get<Brewery[]>(environment.dbUrl + '/breweries', BreweryService.httpOptions);
+		return this.httpClient.get<Brewery[]>(environment.dbUrl + '/breweries', BreweryService.httpOptions).pipe(first());
 	}
 
 	getBrewery(id: string): Observable<Brewery> {
-		return this.httpClient.get<Brewery>(environment.dbUrl + '/breweries/' + id, BreweryService.httpOptions);
+		return this.httpClient.get<Brewery>(environment.dbUrl + '/breweries/' + id, BreweryService.httpOptions).pipe(first());
 	}
 }

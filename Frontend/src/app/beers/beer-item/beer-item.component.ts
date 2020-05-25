@@ -4,30 +4,30 @@ import { UserService } from 'src/app/services/user.service';
 import { environment } from 'src/environments/environment';
 import { BrewService } from 'src/app/services/brew.service';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Component({
 	selector: 'app-beer-item',
 	templateUrl: './beer-item.component.html',
 	styleUrls: ['./beer-item.component.scss']
 })
-export class BeerItemComponent implements OnInit {
+export class BeerItemComponent {
 
 	@Input() beer: Beer;
 
 	dbUrl = environment.dbUrl;
 	mouseOver = false;
 
+
 	constructor(
 		private userService: UserService,
 		private brewService: BrewService,
 		private router: Router) { }
 
-	ngOnInit(): void {
-	}
 
-	public isLoggedIn(): boolean {
-		return this.userService.isLoggedIn;
-	}
+	isLoggedIn(): Observable<boolean> {
+		return this.userService.isLoggedIn();
+	};
 
 	public startBrew(): void {
 		this.brewService.startBrew(this.beer._id).subscribe(res => {
