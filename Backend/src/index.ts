@@ -40,7 +40,7 @@ let corsOptions = {
 app.use(cors(corsOptions));
 
 // Logger
-app.use(morgan('tiny'));
+app.use(morgan('dev'));
 
 //Routes
 let loginRoutes = require('./routes/login.route');

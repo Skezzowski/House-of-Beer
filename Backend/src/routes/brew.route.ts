@@ -40,15 +40,14 @@ router.route('/brews/isActionNeeded').get(authChecker, (req, res) => {
 		.then(brews => {
 			for (let brew of brews) {
 				if (brew.isActionNeeded()) {
-					res.status(200).json(true);
-					return;
+					return res.status(200).json(true);
 				}
 			}
-			res.status(200).json(false);
+			return res.status(200).json(false);
 		})
 		.catch(error => {
 			console.log(error);
-			res.status(500).json({ msg: 'Váratlan hiba' });
+			return res.status(500).json({ msg: 'Váratlan hiba' });
 		});
 });
 
@@ -122,4 +121,4 @@ router.route('/brew/:brewId').delete(authChecker, (req, res) => {
 		})
 });
 
-module.exports = router;
+module.exports = router;	
