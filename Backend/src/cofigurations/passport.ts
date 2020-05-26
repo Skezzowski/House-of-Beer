@@ -1,8 +1,7 @@
 import passport from 'passport';
 import passportLocal from 'passport-local';
-import mongoose from 'mongoose';
 
-import userModel, { IUser } from '../models/user.model';
+import userModel from '../models/user.model';
 
 const loginError = new Error('Hibás felhasználónév vagy jelszó');
 

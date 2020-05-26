@@ -1,40 +1,41 @@
 {
-  "name": "Backend",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start:dev": "nodemon"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "@types/node": "^13.1.4",
-    "nodemon": "^2.0.2",
-    "ts-node": "^8.5.4",
-    "typescript": "^3.7.4"
-  },
-  "dependencies": {
-    "@types/bcrypt": "^3.0.0",
-    "@types/cookie-parser": "^1.4.2",
-    "@types/cors": "^2.8.6",
-    "@types/express-session": "^1.17.0",
-    "@types/mongodb": "^3.3.14",
-    "@types/mongoose": "^5.5.39",
-    "@types/morgan": "^1.9.0",
-    "@types/passport": "^1.0.3",
-    "@types/passport-local": "^1.0.33",
-    "bcrypt": "^4.0.1",
-    "cookie-parser": "^1.4.5",
-    "cors": "^2.8.5",
-    "express": "^4.17.1",
-    "express-session": "^1.17.1",
-    "mongodb": "^3.4.1",
-    "mongoose": "^5.8.5",
-    "morgan": "^1.10.0",
-    "passport": "^0.4.1",
-    "passport-local": "^1.0.0"
-  }
+	"name": "Backend",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.ts",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start:dev": "nodemon",
+		"start:prod": "ts-node ./src/index.ts"
+	},
+	"keywords": [],
+	"author": "BeerMakers",
+	"license": "ISC",
+	"devDependencies": {
+		"@types/node": "^13.1.4",
+		"nodemon": "^2.0.2",
+		"ts-node": "^8.5.4",
+		"typescript": "^3.7.4"
+	},
+	"dependencies": {
+		"@types/bcrypt": "^3.0.0",
+		"@types/cookie-parser": "^1.4.2",
+		"@types/cors": "^2.8.6",
+		"@types/express-session": "^1.17.0",
+		"@types/mongodb": "^3.3.14",
+		"@types/mongoose": "^5.5.39",
+		"@types/morgan": "^1.9.0",
+		"@types/passport": "^1.0.3",
+		"@types/passport-local": "^1.0.33",
+		"bcrypt": "^4.0.1",
+		"cookie-parser": "^1.4.5",
+		"cors": "^2.8.5",
+		"express": "^4.17.1",
+		"express-session": "^1.17.1",
+		"mongodb": "^3.4.1",
+		"mongoose": "^5.8.5",
+		"morgan": "^1.10.0",
+		"passport": "^0.4.1",
+		"passport-local": "^1.0.0"
+	}
 }

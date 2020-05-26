@@ -1,4 +1,4 @@
-import express, { Request, Response, NextFunction } from 'express'
+import express from 'express'
 import passport from 'passport'
 import { MongoError } from 'mongodb';
 import userModel from '../models/user.model';
