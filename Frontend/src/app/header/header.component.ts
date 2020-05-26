@@ -12,12 +12,14 @@ import { switchMap, tap, takeUntil, repeat } from 'rxjs/operators';
 })
 export class HeaderComponent implements OnInit, OnDestroy, OnChanges {
 
-	logoutError: string = '';
 	private readonly _stop = new Subject<void>();
-	interval: Subscription;
-	actionNeeded: boolean = false;
+
 	@Input() isLoggedIn: boolean = false;
 	@Input() brewChanged: { value: boolean } = { value: false };
+
+	logoutError: string = '';
+	interval: Subscription;
+	actionNeeded: boolean = false;
 
 	constructor(private userService: UserService, private brewService: BrewService) { }
 
@@ -43,12 +45,13 @@ export class HeaderComponent implements OnInit, OnDestroy, OnChanges {
 	isActionNeeded(): Observable<boolean> {
 		if (!this.isLoggedIn)
 			return of(this.actionNeeded);
+
 		return this.brewService.isActionNeeded()
 			.pipe(
-				tap(actionNeeded => {
-					this.actionNeeded = actionNeeded;
-				}
-				));
+				tap(
+					actionNeeded => this.actionNeeded = actionNeeded
+				)
+			);
 	}
 
 	ngOnDestroy(): void {

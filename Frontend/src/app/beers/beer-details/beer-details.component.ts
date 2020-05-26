@@ -10,12 +10,14 @@ import { environment } from 'src/environments/environment';
 	styleUrls: ['./beer-details.component.scss']
 })
 export class BeerDetailsComponent implements OnInit {
+
 	beer: Beer;
 	id: string;
 	@Input() colContent: boolean = true;
 	@Output() loadingIsDone = new EventEmitter<boolean>();
 	dbUrl = environment.dbUrl;
 	loading: boolean = true;
+
 	constructor(private beerService: BeerService, private route: ActivatedRoute) { }
 
 	ngOnInit() {
@@ -23,14 +25,15 @@ export class BeerDetailsComponent implements OnInit {
 			.subscribe(
 				(params: Params) => {
 					this.id = params['beerId'];
-					this.beerService.getBeer(this.id).subscribe(
-						res => {
-							this.beer = res;
-							this.loadingIsDone.emit(true);
-							this.loading = false;
-						},
-						console.log
-					);
+					this.beerService.getBeer(this.id)
+						.subscribe(
+							res => {
+								this.beer = res;
+								this.loadingIsDone.emit(true);
+								this.loading = false;
+							},
+							console.log
+						);
 				}
 			);
 	}

@@ -34,22 +34,24 @@ export class ActiveBrewComponent implements OnInit, OnDestroy {
 			(params: Params) => {
 				this.brewId = params.brewId;
 				this.beerId = params.beerId;
-				this.interval = this.syncBrew().pipe(
-					switchMap((data) => {
-						this.loading = false;
-						return interval(5000).pipe(
-							switchMap(() => {
+				this.interval = this.syncBrew()
+					.pipe(
+						switchMap(
+							() => {
+								this.loading = false;
+								return interval(5000);
+							}),
+						switchMap(
+							() => {
 								if (!this.brew.done && !this.brew.actionNeeded) {
 									return this.syncBrew()
 								}
 								return of(this.brew);
 							})
-						);
-					})
-				).subscribe(
-					undefined,
-					(error: HttpErrorResponse) => this.errorHandling(error)
-				);
+					).subscribe(
+						undefined,
+						(error: HttpErrorResponse) => this.errorHandling(error)
+					);
 			},
 			console.log
 		);
@@ -100,10 +102,11 @@ export class ActiveBrewComponent implements OnInit, OnDestroy {
 	}
 
 	actionButtonClicked(): void {
-		concat(this.doAction(), this.getBrew()).subscribe(
-			undefined,
-			(error: HttpErrorResponse) => this.errorHandling(error)
-		);
+		concat(this.doAction(), this.getBrew())
+			.subscribe(
+				undefined,
+				(error: HttpErrorResponse) => this.errorHandling(error)
+			);
 	}
 
 	doAction(): Observable<any> {

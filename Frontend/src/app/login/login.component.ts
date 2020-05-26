@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { NgForm, NgModel } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -9,23 +9,19 @@ import { HttpErrorResponse } from '@angular/common/http';
 	templateUrl: './login.component.html',
 	styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
 
 	private focusedTag: NgModel;
 	errorMsg: string = '';
 
 	constructor(private userServie: UserService, private router: Router) { }
 
-	ngOnInit() {
-		localStorage.clear();
-	}
-
 	submit(f: NgForm) {
-		this.userServie.login(f.value.username, f.value.password).subscribe(data => {
-			this.router.navigate(['/beers']);
-		}, (error: HttpErrorResponse) => {
-			this.errorMsg = error.error.msg;
-		});
+		this.userServie.login(f.value.username, f.value.password)
+			.subscribe(
+				() => this.router.navigate(['/beers']),
+				(error: HttpErrorResponse) => this.errorMsg = error.error.msg
+			);
 	}
 
 	focused(tag?: NgModel) {

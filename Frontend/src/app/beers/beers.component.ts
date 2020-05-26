@@ -14,7 +14,10 @@ export class BeersComponent implements OnInit {
 	constructor(private beerService: BeerService) { }
 
 	ngOnInit(): void {
-		this.beerService.getBeers().subscribe(res => this.beerList = res);
+		this.beerService.getBeers()
+			.subscribe(
+				res => this.beerList = res
+			);
 	}
 
 }

@@ -13,6 +13,7 @@ export class BrewsComponent implements OnInit {
 	brewsList: Brew[];
 	loading: boolean = true;
 	errorMsg = '';
+
 	constructor(private brewService: BrewService) { }
 
 	ngOnInit(): void {
@@ -20,26 +21,25 @@ export class BrewsComponent implements OnInit {
 	}
 
 	getBrews() {
-		this.brewService.getBrews().subscribe(
-			(res) => {
-				this.brewsList = res;
-			},
-			error => { console.log(error); },
-			() => this.loading = false);
+		this.brewService.getBrews()
+			.subscribe(
+				res => this.brewsList = res,
+				console.log,
+				() => this.loading = false
+			);
 	}
 
 	deleteBrew(id: string) {
-		this.brewService.deleteBrew(id).subscribe(
-			() => {
-				this.getBrews();
-			},
-			(error: HttpErrorResponse) => {
-				this.errorMsg = error.error.msg;
-				setTimeout(() => {
-					this.errorMsg = '';
-				}, 3000);
-			}
-		);
+		this.brewService.deleteBrew(id)
+			.subscribe(
+				() => this.getBrews(),
+				(error: HttpErrorResponse) => {
+					this.errorMsg = error.error.msg;
+					setTimeout(() => {
+						this.errorMsg = '';
+					}, 3000);
+				}
+			);
 	}
 
 }

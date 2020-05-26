@@ -18,21 +18,20 @@ export class BeerItemComponent {
 	dbUrl = environment.dbUrl;
 	mouseOver = false;
 
-
 	constructor(
 		private userService: UserService,
 		private brewService: BrewService,
 		private router: Router) { }
-
 
 	isLoggedIn(): Observable<boolean> {
 		return this.userService.isLoggedIn();
 	};
 
 	public startBrew(): void {
-		this.brewService.startBrew(this.beer._id).subscribe(res => {
-			this.router.navigate(['/brews']);
-		});
+		this.brewService.startBrew(this.beer._id)
+			.subscribe(
+				() => this.router.navigate(['/brews'])
+			);
 	}
 
 }

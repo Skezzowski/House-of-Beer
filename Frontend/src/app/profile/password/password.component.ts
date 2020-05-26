@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
 import { Router } from '@angular/router';
@@ -9,7 +9,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 	templateUrl: './password.component.html',
 	styleUrls: ['./password.component.scss']
 })
-export class PasswordComponent implements OnInit {
+export class PasswordComponent {
 
 	errorMsg = '';
 	successMsg = '';
@@ -17,9 +17,6 @@ export class PasswordComponent implements OnInit {
 	success = false;
 
 	constructor(private userService: UserService, private router: Router) { }
-
-	ngOnInit(): void {
-	}
 
 	changePasswd(form: NgForm) {
 		this.userService.changePasswd(form.value.oldpassword, form.value.newpassword).subscribe(

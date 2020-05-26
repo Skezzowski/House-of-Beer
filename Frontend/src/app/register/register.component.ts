@@ -20,11 +20,11 @@ export class RegisterComponent {
 
 	submit(f: NgForm) {
 		const values = f.value;
-		this.userServie.register(values.username, values.fullname, values.password).subscribe(data => {
-			this.router.navigate(['/login']);
-		}, (error: HttpErrorResponse) => {
-			this.errorMsg = error.error.msg;
-		});
+		this.userServie.register(values.username, values.fullname, values.password)
+			.subscribe(
+				() => this.router.navigate(['/login']),
+				(error: HttpErrorResponse) => this.errorMsg = error.error.msg
+			);
 	}
 
 	focused(tag?: NgModel) {
