@@ -27,6 +27,7 @@ export class ActiveBrewComponent implements OnInit, OnDestroy {
 	remainingHours: number = 0;
 	remainingMinutes: number = 0;
 	interval: Subscription;
+	activeBrewIsReady: boolean = false;
 
 	constructor(private router: Router, private route: ActivatedRoute, private brewService: BrewService) { }
 
@@ -37,17 +38,18 @@ export class ActiveBrewComponent implements OnInit, OnDestroy {
 				this.beerId = params.beerId;
 				this.interval = this.syncBrew().pipe(
 					switchMap((data) => {
-						if (!this.brew.done && !this.brew.actionNeeded) {
-							return interval(5000).pipe(
-								switchMap(() => {
+						this.loading = false;
+						return interval(5000).pipe(
+							switchMap(() => {
+								if (!this.brew.done && !this.brew.actionNeeded) {
 									return this.syncBrew()
-								})
-							);
-						}
-						return of(data);
+								}
+								return of(this.brew);
+							})
+						);
 					})
 				).subscribe(
-					() => this.loading = false,
+					undefined,
 					(error: HttpErrorResponse) => {
 						console.log(error);
 						if (error.status === 401 || error.status === 403) {

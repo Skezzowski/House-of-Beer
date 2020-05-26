@@ -38,14 +38,13 @@ router.route('/brews/isActionNeeded').get(authChecker, (req, res) => {
 	brewModel.find({ user: req.session?.passport.user._id })
 		.populate('beer')
 		.then(brews => {
-			let actionNeeded = false;
 			for (let brew of brews) {
 				if (brew.isActionNeeded()) {
-					actionNeeded = true;
-					break;
+					res.status(200).json(true);
+					return;
 				}
 			}
-			res.status(200).json(actionNeeded);
+			res.status(200).json(false);
 		})
 		.catch(error => {
 			console.log(error);

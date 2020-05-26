@@ -1,13 +1,13 @@
 <div>
 
-	<app-beer-details *ngIf="!loading"
-					  [colContent]="false">
+	<app-beer-details [colContent]="false"
+					  (loadingIsDone)="activeBrewIsReady = $event">
 	</app-beer-details>
 	<div *ngIf="errorMsg !== ''"
 		 class="errorMessage alert alert-danger">
 		{{errorMsg}}
 	</div>
-	<div *ngIf="!loading"
+	<div *ngIf="!loading && activeBrewIsReady"
 		 class="actions">
 		<div *ngIf="!brew.actionNeeded && !brew.done"
 			 class="time">

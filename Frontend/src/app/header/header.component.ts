@@ -2,8 +2,8 @@ import { Component, OnInit, OnDestroy, Input, OnChanges, SimpleChanges } from '@
 import { UserService } from '../services/user.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { BrewService } from '../services/brew.service';
-import { Observable, of, Subscription, timer, pipe, Subject } from 'rxjs';
-import { switchMap, tap, repeatWhen } from 'rxjs/operators';
+import { Observable, of, Subscription, timer, Subject } from 'rxjs';
+import { switchMap, tap, takeUntil, repeat } from 'rxjs/operators';
 
 @Component({
 	selector: 'app-header',
@@ -13,10 +13,11 @@ import { switchMap, tap, repeatWhen } from 'rxjs/operators';
 export class HeaderComponent implements OnInit, OnDestroy, OnChanges {
 
 	logoutError: string = '';
-	private readonly _start = new Subject<void>();
+	private readonly _stop = new Subject<void>();
 	interval: Subscription;
 	actionNeeded: boolean = false;
 	@Input() isLoggedIn: boolean = false;
+	@Input() brewChanged: { value: boolean } = { value: false };
 	private loading: boolean = false;
 
 	constructor(private userService: UserService, private brewService: BrewService) { }
@@ -27,7 +28,8 @@ export class HeaderComponent implements OnInit, OnDestroy, OnChanges {
 				switchMap(() => {
 					return this.isActionNeeded();
 				}),
-				repeatWhen(() => this._start)
+				takeUntil(this._stop),
+				repeat()
 			)
 			.subscribe(
 				undefined,
@@ -36,12 +38,13 @@ export class HeaderComponent implements OnInit, OnDestroy, OnChanges {
 	}
 
 	ngOnChanges(changes: SimpleChanges): void {
-		this._start.next();
+		this._stop.next();
+		console.log(changes);
 	}
 
 	isActionNeeded(): Observable<boolean> {
 		if (!this.isLoggedIn || this.loading)
-			return of(false);
+			return of(this.actionNeeded);
 		this.loading = true;
 		return this.brewService.isActionNeeded()
 			.pipe(

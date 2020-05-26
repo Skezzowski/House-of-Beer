@@ -1,4 +1,5 @@
-<app-header [isLoggedIn]="isLoggedIn | async"></app-header>
+<app-header [isLoggedIn]="isLoggedIn | async"
+			[brewChanged]="brewChanged | async"></app-header>
 <div class="m-5">
 	<router-outlet></router-outlet>
 </div>
