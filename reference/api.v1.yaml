@@ -549,49 +549,6 @@ paths:
               properties:
                 brewId:
                   type: string
-  /brew/done:
-    post:
-      summary: Főzés lezárása
-      operationId: post-brew-done
-      responses:
-        '200':
-          description: OK
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  msg:
-                    type: string
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  msg:
-                    type: string
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  msg:
-                    type: string
-      description: ''
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                brewId:
-                  type: string
   /profile:
     get:
       summary: Profile
