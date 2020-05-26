@@ -3,8 +3,8 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { BrewService } from '../services/brew.service';
 import { CurrentBrew } from './current-brew.model';
-import { Beer } from '../beers/beer.model';
-import { BeerService } from '../services/beer.service';
+import { Observable, of, throwError, concat, interval, Subscription } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
 
 @Component({
 	selector: 'app-active-brew',
@@ -15,98 +15,135 @@ export class ActiveBrewComponent implements OnInit, OnDestroy {
 
 	private brewId: string;
 	private beerId: string;
-	brew: CurrentBrew;
-	loading: boolean = true;
 	stageList: {
 		name: string,
 		description: string
 	}[] = [];
-	actionDescription: string;
+	errorMsg: string = '';
+	brew: CurrentBrew;
+	loading: boolean = true;
 	selectedIndex: number;
+	lastStage: number;
 	remainingHours: number = 0;
 	remainingMinutes: number = 0;
-	interval: any;
+	interval: Subscription;
 
-	constructor(private router: Router, private route: ActivatedRoute, private brewService: BrewService, private beerService: BeerService) { }
+	constructor(private router: Router, private route: ActivatedRoute, private brewService: BrewService) { }
 
 	ngOnInit(): void {
 		this.route.params.subscribe(
 			(params: Params) => {
 				this.brewId = params.brewId;
 				this.beerId = params.beerId;
-				this.getBrew();
-				this.getBrewRemaininTime();
-			},
-			console.log
-		);
-	}
-
-	getBrewRemaininTime() {
-		this.interval = setInterval(() => {
-			this.getBrew();
-		}, 10000);
-	}
-
-	getBrew() {
-		this.brewService.getBrew(this.brewId).subscribe(
-			brew => {
-				this.brew = brew;
-				if (this.beerId !== brew.beerId) {
-					this.router.navigate(['/unauthorized']);
-					return;
-				}
-				this.stageList = [];
-				for (let i = 0; i < this.brew.currentStageIndex; i++) {
-					this.stageList.push(this.brew.stages[i + 1]);
-				}
-				if (this.brew.actionNeeded) {
-					if (this.brew.currentStageIndex + 1 === this.brew.stages.length) {
-						this.doAction();
-					} else {
-						this.stageList.push(this.brew.stages[this.brew.currentStageIndex + 1]);
+				this.interval = this.syncBrew().pipe(
+					switchMap((data) => {
+						if (!this.brew.done && !this.brew.actionNeeded) {
+							return interval(5000).pipe(
+								switchMap(() => {
+									return this.syncBrew()
+								})
+							);
+						}
+						return of(data);
+					})
+				).subscribe(
+					() => this.loading = false,
+					(error: HttpErrorResponse) => {
+						console.log(error);
+						if (error.status === 401 || error.status === 403) {
+							this.router.navigate(['/unauthorized']);
+						} else {
+							this.router.navigate(['/error']);
+						}
 					}
-				} else {
-					this.setRemainingTime();
-				}
-				this.loading = false;
-			},
-			(error: HttpErrorResponse) => {
-				if (error.status === 401 || error.status === 403) {
-					this.router.navigate(['/unauthorized']);
-				} else {
-					this.router.navigate(['/error']);
-				}
-			}
-		);
-	}
-
-	selectedAction(index?: number) {
-		this.selectedIndex = index;
-		if (index >= 0)
-			this.actionDescription = this.stageList[index].description;
-		else
-			this.actionDescription = undefined;
-	}
-
-	doAction() {
-		this.brewService.doAction(this.brewId).subscribe(
-			() => {
-				this.selectedAction();
-				this.getBrew();
+				);
 			},
 			console.log
 		);
 	}
 
-	setRemainingTime() {
-		console.log(this.brew.timeBeforeNextStage);
+	syncBrew(): Observable<CurrentBrew> {
+		return this.getBrew()
+			.pipe(
+				switchMap(brew => {
+					this.stageList = [];
+					this.lastStage = this.brew.currentStageIndex - 1;
+					this.brew.stages.map(stage => this.stageList.push(stage));
+					this.stageList.shift();
+					if (this.brew.actionNeeded) {
+						if (this.brew.currentStageIndex + 1 === this.brew.stages.length) {
+							return this.doAction()
+								.pipe(
+									switchMap(() => {
+										return this.getBrew();
+									})
+								);
+						} else {
+							this.lastStage += 1;
+						}
+					}
+					return of(brew);
+				})
+			);
+	}
+
+	getBrew(): Observable<CurrentBrew> {
+		return this.brewService.getBrew(this.brewId)
+			.pipe(
+				switchMap(brew => {
+					this.brew = brew;
+					if (this.beerId !== brew.beerId) {
+						return throwError(new HttpErrorResponse({ status: 401 }))
+					}
+					if (!this.brew.actionNeeded)
+						this.setRemainingTime();
+					return of(brew);
+				})
+			);
+	}
+
+	selectedAction(index?: number): void {
+		this.selectedIndex = index;
+	}
+
+	actionButtonClicked(): void {
+		concat(this.doAction(), this.getBrew()).subscribe(
+			undefined,
+			console.log
+		);
+	}
+
+	doAction(): Observable<any> {
+		return this.brewService.doAction(this.brewId)
+			.pipe(
+				tap(
+					_ => this.selectedAction()
+				)
+			);
+	}
+
+	setRemainingTime(): void {
 		this.remainingMinutes = Math.trunc(60 * this.brew.timeBeforeNextStage);
 		this.remainingHours = Math.trunc(this.remainingMinutes / 60);
 		this.remainingMinutes = this.remainingMinutes - 60 * this.remainingHours;
 	}
 
+	deleteBrew() {
+		this.brewService.deleteBrew(this.brewId).subscribe(
+			() => {
+				this.router.navigate(['/brews']);
+			},
+			(error: HttpErrorResponse) => {
+				this.errorMsg = error.error.msg;
+				setTimeout(() => {
+					this.errorMsg = '';
+				}, 3000);
+			}
+		);
+	}
+
 	ngOnDestroy(): void {
-		clearInterval(this.interval);
+		this.interval.unsubscribe();
 	}
 
 }

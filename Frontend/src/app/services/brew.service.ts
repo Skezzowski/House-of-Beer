@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Brew } from '../brews/brew.model';
+import { CurrentBrew } from '../active-brew/current-brew.model';
 
 @Injectable({
 	providedIn: 'root'
@@ -26,8 +27,8 @@ export class BrewService {
 		return this.httpClient.get<Brew[]>(environment.dbUrl + '/brews', BrewService.httpOptions).pipe(first());
 	}
 
-	getBrew(id: string): Observable<any> {
-		return this.httpClient.get(environment.dbUrl + '/brew/' + id, BrewService.httpOptions).pipe(first());
+	getBrew(id: string): Observable<CurrentBrew> {
+		return this.httpClient.get<CurrentBrew>(environment.dbUrl + '/brew/' + id, BrewService.httpOptions).pipe(first());
 	}
 
 	doAction(id: string): Observable<any> {

@@ -1,6 +1,8 @@
-
+.errorMessage{
+	text-align: center;
+	margin: 5px;
+}
 .actions{
-	padding: 5px;
 	.time{
 		padding: 5px;
 	}
@@ -9,6 +11,9 @@
 		.btn:focus {
 			outline: none;
 			box-shadow: none;
+		  }
+		  .navbar-text{
+			  padding-right: 5px;
 		  }
 	}
 	.actionDescription{

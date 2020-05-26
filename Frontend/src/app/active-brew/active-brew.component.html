@@ -1,9 +1,14 @@
 <div>
-	<app-beer-details [colContent]="false">
+
+	<app-beer-details *ngIf="!loading"
+					  [colContent]="false">
 	</app-beer-details>
+	<div *ngIf="errorMsg !== ''"
+		 class="errorMessage alert alert-danger">
+		{{errorMsg}}
+	</div>
 	<div *ngIf="!loading"
 		 class="actions">
-
 		<div *ngIf="!brew.actionNeeded && !brew.done"
 			 class="time">
 			A következő eseményig hátralévő idő:
@@ -14,25 +19,30 @@
 				kevesebb, mint 1 perc.
 			</span>
 		</div>
-		<ul class="nav bg-light actionButtons">
+		<ul class="nav actionButtons">
 			<button *ngFor="let action of stageList; index as i; last as isLast"
 					class="nav-item btn btn-primary rounded-0"
-					[class.btn-danger]="isLast && brew.actionNeeded"
-					[class.disabled]="i === selectedIndex"
-					(click)="i !== selectedIndex && selectedAction(i)">
+					[class.btn-warning]="i === lastStage && brew.actionNeeded"
+					[class.disabled]="i > lastStage"
+					(click)="i !== selectedIndex && i <= lastStage && selectedAction(i)">
 				{{action.name}}
 			</button>
+
 			<div class="navbar-text ml-auto"
 				 *ngIf="brew.done">
 				A főzés befejeződött, jöhet a kóstolás! Egészségedre!
 			</div>
+			<button class="nav-item btn btn-danger ml-auto"
+					(click)="deleteBrew()">
+				Törlés
+			</button>
 		</ul>
-		<div *ngIf="actionDescription"
+		<div *ngIf="selectedIndex !== undefined"
 			 class="actionDescription">
-			{{actionDescription}}
+			{{stageList[selectedIndex].description}}
 			<button class="btn btn-primary"
-					(click)="doAction()"
-					*ngIf="brew.currentStageIndex === selectedIndex && brew.actionNeeded">
+					(click)="actionButtonClicked()"
+					*ngIf="lastStage === selectedIndex && brew.actionNeeded">
 				Végrehajtás
 			</button>
 		</div>
