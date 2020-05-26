@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { Observable, BehaviorSubject, iif, of } from 'rxjs';
-import { first, switchMap, tap, map } from 'rxjs/operators';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { first, switchMap, tap } from 'rxjs/operators';
 
 @Injectable({
 	providedIn: 'root'
@@ -16,7 +16,6 @@ export class UserService {
 
 	isLoggedIn(): Observable<boolean> {
 		if (this.firstInit) {
-			console.trace()
 			return this.httpClient.get<boolean>(environment.dbUrl + '/authcheck', UserService.httpOptions)
 				.pipe(first())
 				.pipe(

@@ -18,7 +18,6 @@ export class HeaderComponent implements OnInit, OnDestroy, OnChanges {
 	actionNeeded: boolean = false;
 	@Input() isLoggedIn: boolean = false;
 	@Input() brewChanged: { value: boolean } = { value: false };
-	private loading: boolean = false;
 
 	constructor(private userService: UserService, private brewService: BrewService) { }
 
@@ -39,17 +38,14 @@ export class HeaderComponent implements OnInit, OnDestroy, OnChanges {
 
 	ngOnChanges(changes: SimpleChanges): void {
 		this._stop.next();
-		console.log(changes);
 	}
 
 	isActionNeeded(): Observable<boolean> {
-		if (!this.isLoggedIn || this.loading)
+		if (!this.isLoggedIn)
 			return of(this.actionNeeded);
-		this.loading = true;
 		return this.brewService.isActionNeeded()
 			.pipe(
 				tap(actionNeeded => {
-					this.loading = false;
 					this.actionNeeded = actionNeeded;
 				}
 				));
@@ -61,9 +57,6 @@ export class HeaderComponent implements OnInit, OnDestroy, OnChanges {
 
 	logout() {
 		this.userService.logout()
-			.pipe(
-				tap(() => this.loading = false)
-			)
 			.subscribe(() =>
 				this.logoutError = '',
 				(error: HttpErrorResponse) => {

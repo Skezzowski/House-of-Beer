@@ -12,7 +12,7 @@ router.route('/beers').get((req, res) => {
 		})
 		.catch(err => {
 			console.log(err);
-			return res.status(500).json({ msg: 'Váratlan adatbázis hiba' })
+			return res.status(500).json({ msg: 'Váratlan hiba' })
 		});
 });
 
@@ -27,7 +27,7 @@ router.route('/beers/:beerId').get((req, res) => {
 		})
 		.catch((err: MongoError) => {
 			console.log(err);
-			return res.status(500).json({ msg: 'Váratlan adatbázis hiba vagy rossz id paraméter' })
+			return res.status(500).json({ msg: 'Váratlan hiba vagy rossz id paraméter' })
 		});
 });
 

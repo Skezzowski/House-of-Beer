@@ -18,7 +18,7 @@ router.route('/brew/start').post(authChecker, (req, res) => {
 		.then(_ => res.status(200).json({ msg: 'Főzés sikeresen elkezdődött' }))
 		.catch(error => {
 			console.log(error);
-			res.status(500).json({ msg: 'hiba' });
+			res.status(500).json({ msg: 'Váratlan hiba' });
 		});
 });
 
