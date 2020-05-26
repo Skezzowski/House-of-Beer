@@ -2,9 +2,9 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { BrewService } from '../services/brew.service';
-import { CurrentBrew } from './current-brew.model';
+import { CurrentBrew, Stage } from './current-brew.model';
 import { Observable, of, throwError, concat, interval, Subscription } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs/operators';
 
 @Component({
 	selector: 'app-active-brew',
@@ -15,10 +15,8 @@ export class ActiveBrewComponent implements OnInit, OnDestroy {
 
 	private brewId: string;
 	private beerId: string;
-	stageList: {
-		name: string,
-		description: string
-	}[] = [];
+
+	stageList: Stage[] = [];
 	errorMsg: string = '';
 	brew: CurrentBrew;
 	loading: boolean = true;
@@ -50,14 +48,7 @@ export class ActiveBrewComponent implements OnInit, OnDestroy {
 					})
 				).subscribe(
 					undefined,
-					(error: HttpErrorResponse) => {
-						console.log(error);
-						if (error.status === 401 || error.status === 403) {
-							this.router.navigate(['/unauthorized']);
-						} else {
-							this.router.navigate(['/error']);
-						}
-					}
+					(error: HttpErrorResponse) => this.errorHandling(error)
 				);
 			},
 			console.log
@@ -111,7 +102,7 @@ export class ActiveBrewComponent implements OnInit, OnDestroy {
 	actionButtonClicked(): void {
 		concat(this.doAction(), this.getBrew()).subscribe(
 			undefined,
-			console.log
+			(error: HttpErrorResponse) => this.errorHandling(error)
 		);
 	}
 
@@ -131,17 +122,25 @@ export class ActiveBrewComponent implements OnInit, OnDestroy {
 	}
 
 	deleteBrew() {
-		this.brewService.deleteBrew(this.brewId).subscribe(
-			() => {
-				this.router.navigate(['/brews']);
-			},
-			(error: HttpErrorResponse) => {
-				this.errorMsg = error.error.msg;
-				setTimeout(() => {
-					this.errorMsg = '';
-				}, 3000);
-			}
-		);
+		this.brewService.deleteBrew(this.brewId)
+			.subscribe(
+				() => {
+					this.router.navigate(['/brews']);
+				},
+				(error: HttpErrorResponse) => this.errorHandling(error)
+			);
+	}
+
+	errorHandling(error: HttpErrorResponse) {
+		if (error.status === 401) {
+			this.router.navigate(['/unauthorized']);
+			return;
+		}
+		console.log(error);
+		this.errorMsg = error.error.msg;
+		setTimeout(() => {
+			this.errorMsg = '';
+		}, 3000);
 	}
 
 	ngOnDestroy(): void {

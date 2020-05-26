@@ -9,19 +9,21 @@ import { first, switchMap, tap, map } from 'rxjs/operators';
 })
 export class UserService {
 
-	private _isLoggedIn: BehaviorSubject<boolean>;
+	private _isLoggedIn = new BehaviorSubject<boolean>(false);
 	private static readonly httpOptions = environment.httpOptions;
-
+	private firstInit: boolean = true;
 	constructor(private httpClient: HttpClient) { }
 
 	isLoggedIn(): Observable<boolean> {
-		if (this._isLoggedIn === undefined) {
+		if (this.firstInit) {
+			console.trace()
 			return this.httpClient.get<boolean>(environment.dbUrl + '/authcheck', UserService.httpOptions)
 				.pipe(first())
 				.pipe(
 					switchMap(
 						data => {
-							this._isLoggedIn = new BehaviorSubject(data);
+							this.firstInit = false;
+							this._isLoggedIn.next(data);
 							return this._isLoggedIn;
 						}
 					));
